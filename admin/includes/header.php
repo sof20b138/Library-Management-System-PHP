@@ -8,7 +8,7 @@
                 </button>
                 <a class="navbar-brand">
 
-                    <img src="assets/img/logo.png" />
+                    <img src="assets/img/logo.png" width="128"/>
                 </a>
 
             </div>
@@ -56,9 +56,16 @@
                                      <li role="presentation"><a role="menuitem" tabindex="-1" href="manage-issued-books.php">Manage Issued Books</a></li>
                                 </ul>
                             </li>
-                             <li><a href="reg-students.php">Reg Students</a></li>
+
+                            <li>
+                                <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Manage Readers <i class="fa fa-angle-down"></i></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="new-reders.php">New User Approvals</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="reg-students.php">Approved Reders</a></li>
+                                </ul>
+                            </li>
                     
-  <li><a href="change-password.php">Change Password</a></li>
+                            <li><a href="change-password.php">Change Password</a></li>
                         </ul>
                     </div>
                 </div>
