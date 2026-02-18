@@ -9,6 +9,35 @@ header('location:index.php');
 else{ 
 
 
+function checkOverdueStatus($issueDateString) {
+    // 1. Convert the input string into a DateTime object
+    $issueDate = new DateTime($issueDateString);
+    
+    // 2. Create the due date by adding 14 days to the issue date
+    $dueDate = clone $issueDate;
+    $dueDate->modify('+14 days');
+    
+    // 3. Get the current date and time
+    $now = new DateTime();
+
+    // 4. Compare current time with due date
+    if ($now > $dueDate) {
+        // Calculate the difference
+        $diff = $now->diff($dueDate);
+        
+        return [
+            'is_late' => true,
+            'days_late' => $diff->days // Total number of days overdue
+        ];
+    }
+
+    // Not late
+    return [
+        'is_late' => false,
+        'days_late' => 0
+    ];
+}
+
 
     ?>
 <!DOCTYPE html>
@@ -119,7 +148,13 @@ foreach($results as $result)
                                             <td class="center"><?php echo htmlentities($result->IssuesDate);?></td>
                                             <td class="center"><?php if($result->ReturnDate=="")
                                             {
-                                                echo htmlentities("Not Return Yet");
+                                                $status = checkOverdueStatus($result->IssuesDate);
+                                                if ($status['is_late']) {
+                                                    echo htmlentities("Not Return Yet | ". $status['days_late'] . " day(s) late!");
+                                                } else {
+                                                    echo "The book is not overdue yet.";
+                                                    echo htmlentities("Not Return Yet");
+                                                }
                                             } else {
 
 
