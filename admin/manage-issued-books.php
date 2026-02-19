@@ -126,7 +126,8 @@ function checkOverdueStatus($issueDateString) {
                                             <th>Book Name</th>
                                             <th>ISBN </th>
                                             <th>Issued Date</th>
-                                            <th>Return Date</th>
+                                            <th>Status</th>
+                                            <th>Details</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -150,16 +151,25 @@ foreach($results as $result)
                                             {
                                                 $status = checkOverdueStatus($result->IssuesDate);
                                                 if ($status['is_late']) {
-                                                    echo htmlentities("Not Return Yet | ". $status['days_late'] . " day(s) late!");
+                                                    echo ("<span style='padding: 2px 5px;' class='alert alert-danger' role='alert'>Not Returned</span>");
                                                 } else {
-                                                    echo "The book is not overdue yet.";
-                                                    echo htmlentities("Not Return Yet");
+                                                    echo ("<span style='padding: 2px 5px;' class='alert alert-danger' role='alert'>Not Returned</span>");
                                                 }
                                             } else {
-
-
-                                            echo htmlentities($result->ReturnDate);
-}
+                                                echo ("<span style='padding: 2px 5px;' class='alert alert-success  p-0' role='alert'>Returned</span>");
+                                            }
+                                            ?></td>
+                                            <td class="center"><?php if($result->ReturnDate=="")
+                                            {
+                                                $status = checkOverdueStatus($result->IssuesDate);
+                                                if ($status['is_late']) {
+                                                    echo ($status['days_late'] . " day(s) late! | Fine Rs. ". ($status['days_late'] * 2));
+                                                } else {
+                                                    echo ("The book is not overdue yet.");
+                                                }
+                                            } else {
+                                                echo ("Date : ".$result->ReturnDate);
+                                            }
                                             ?></td>
                                             <td class="center">
 
