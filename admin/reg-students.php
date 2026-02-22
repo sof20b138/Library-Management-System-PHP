@@ -66,7 +66,7 @@ header('location:reg-students.php');
          <div class="container">
         <div class="row pad-botm">
             <div class="col-md-12">
-                <h4 class="header-line">Approved Reders</h4>
+                <h4 class="header-line">Approved Readers</h4>
     </div>
 
 

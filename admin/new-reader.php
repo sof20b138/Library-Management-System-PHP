@@ -18,7 +18,7 @@ $query = $dbh->prepare($sql);
 $query -> bindParam(':id',$id, PDO::PARAM_STR);
 $query -> bindParam(':approval',$approval, PDO::PARAM_STR);
 $query -> execute();
-header('location:new-reders.php');
+header('location:new-readers.php');
 }
 
 
@@ -52,7 +52,7 @@ header('location:new-reders.php');
          <div class="container">
         <div class="row pad-botm">
             <div class="col-md-12">
-                <h4 class="header-line">Approved Reders</h4>
+                <h4 class="header-line">New User Approvals</h4>
     </div>
 
 
