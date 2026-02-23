@@ -215,7 +215,23 @@ height: 60px;
 
 }
 
-    .footer-section a, .footer-section a:hover {
-        color:#000;
-    }
+.footer-section a, .footer-section a:hover {
+    color:#000;
+}
 
+thead th{
+    vertical-align: top !important;
+}
+
+
+tbody td{
+    vertical-align: middle !important;
+}
+
+.send-sms-progress-bar-container {
+    margin: 25px 0 0 0;
+}
+
+.send-sms-progress-bar {
+    margin: 25px 0 0 0;
+}

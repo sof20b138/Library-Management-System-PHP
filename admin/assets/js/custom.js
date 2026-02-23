@@ -45,6 +45,71 @@
         mainApp.dataTable_fun();
         mainApp.custom_fun();
     });
+
+
+
+    $(document).ready(function() {
+        // Click event for the 'Send Late Reminder' button
+        $('.send-late-reminders').on('click', function() {
+            var tableData = [];
+
+            // Iterate through each row in the table body
+            $('.table-issued-books tbody tr').each(function() {
+                var $row = $(this);
+                
+                // Only process rows where the checkbox is checked
+                var isChecked = $row.find('input[type="checkbox"]').is(':checked');
+                
+                if (isChecked) {
+                    var rowObject = {
+                        id:          $row.find('td:eq(1)').text().trim(),
+                        studentName: $row.find('td:eq(2)').text().trim(),
+                        mobileNumber: $row.find('td:eq(3)').text().trim(),
+                        bookName:    $row.find('td:eq(4)').text().trim(),
+                        isbn:        $row.find('td:eq(5)').text().trim(),
+                        issuedDate:  $row.find('td:eq(6)').text().trim(),
+                        status:      $row.find('td:eq(7)').text().trim(),
+                        details:     $row.find('td:eq(8)').text().trim()
+                    };
+
+                    tableData.push(rowObject);
+                }
+            });
+            
+            // Check if any data was selected
+            if (tableData.length > 0) {
+
+                $('.send-sms-progress-bar-container').removeClass("hidden");
+                $('.send-sms-progress-bar-container').addClass("show");
+                $('.send-status').text("Sending....   ");
+
+                let count = 1;
+                let precentage = (100 / tableData.length);
+
+                $.each(tableData, function(key, value) {
+
+                    console.log(value.studentName);
+                    $('.send-status').text('Sending....   (' + count + '/' + tableData.length +')');
+                    $('.send-sms-progress-bar > .progress-bar').attr('aria-valuenow',precentage);
+                    $('.send-sms-progress-bar > .progress-bar').attr('style', `width: ${precentage}%;`);
+                    $('.send-sms-progress-bar > .progress-bar').text( precentage + '%');
+
+                    console.log(precentage);
+                    if(count == tableData.length) { precentage = 100;} else { precentage += precentage; }
+                    count++;
+                })
+
+                console.log("Selected Rows Data:", tableData);
+                // You can now send 'tableData' to your server via $.ajax
+                alert(tableData.length + " record(s) extracted. Check console for details.");
+            } else {
+                alert("Please select at least one row using the checkbox.");
+            }
+        });
+    });
+
+
+
 }(jQuery));
 
 

@@ -112,12 +112,10 @@ foreach($results as $result)
                                              <td class="center"><?php echo htmlentities($result->RegDate);?></td>
                                             <td class="center"><?php if($result->Status==1)
                                             {
-                                                echo htmlentities("Active");
+                                                echo ("<span style='padding: 2px 5px;' class='alert alert-success' role='alert'>Active</span>");
                                             } else {
-
-
-                                            echo htmlentities("Blocked");
-}
+                                                echo ("<span style='padding: 2px 5px;' class='alert alert-danger' role='alert'>Blocked</span>");
+                                            }    
                                             ?></td>
                                             <td class="center">
 <?php if($result->Status==1)
