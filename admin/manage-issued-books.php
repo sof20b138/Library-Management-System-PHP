@@ -136,7 +136,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>ISBN </th>
                                                 <th>Issued Date</th>
                                                 <th style="min-width: 105px;">Status</th>
-                                                <th style="min-width: 210px;">Details</th>
+                                                <th style="min-width: 180px;">Details</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -176,7 +176,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         <td class="center"><?php if ($result->ReturnDate == "") {
                                                                                 $status = checkOverdueStatus($result->IssuesDate);
                                                                                 if ($status['is_late']) {
-                                                                                    echo ($status['days_late'] . " day(s) late! | Fine Rs. " . ($status['days_late'] * 2));
+                                                                                    echo ($status['days_late'] . " day(s) overdue!<br/>Current Fine Rs. " . ($status['days_late'] * 2));
                                                                                 } else {
                                                                                     echo ("The book is not overdue yet.");
                                                                                 }
