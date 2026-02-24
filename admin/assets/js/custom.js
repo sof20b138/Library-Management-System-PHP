@@ -90,16 +90,14 @@
 
                     console.log(value.studentName);
                     $('.send-status').text('Sending....   (' + count + '/' + tableData.length +')');
-                    $('.send-sms-progress-bar > .progress-bar').attr('aria-valuenow',precentage);
-                    $('.send-sms-progress-bar > .progress-bar').attr('style', `width: ${precentage}%;`);
-                    $('.send-sms-progress-bar > .progress-bar').text( precentage + '%');
+                    $('.send-sms-progress-bar > .progress-bar').attr('aria-valuenow',Math.min(Math.max(precentage, 0), 100));
+                    $('.send-sms-progress-bar > .progress-bar').attr('style', `width: ${Math.min(Math.max(precentage, 0), 100)}%;`);
+                    $('.send-sms-progress-bar > .progress-bar').text( Math.min(Math.max(precentage, 0), 100) + '%');
 
-                    console.log(precentage);
-                    if(count == tableData.length) { precentage = 100;} else { precentage += precentage; }
+                    precentage = precentage + precentage;
                     count++;
                 })
-
-                console.log("Selected Rows Data:", tableData);
+                
                 // You can now send 'tableData' to your server via $.ajax
                 alert(tableData.length + " record(s) extracted. Check console for details.");
             } else {
