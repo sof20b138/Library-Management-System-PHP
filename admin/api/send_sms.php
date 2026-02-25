@@ -18,6 +18,11 @@ $final_url = $api_url . "?" . http_build_query($params);
 // 3. Make the request from SERVER to SERVER (No CORS here!)
 $response = file_get_contents($final_url);
 
+if($response){
+    
+}
+
+
 // 4. Return the API response back to your JavaScript
 header('Content-Type: application/json');
 echo $response;

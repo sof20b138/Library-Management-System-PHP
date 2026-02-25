@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2026 at 01:50 PM
--- Server version: 10.6.18-MariaDB
+-- Generation Time: Feb 25, 2026 at 12:01 PM
+-- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -150,6 +150,7 @@ CREATE TABLE `tblissuedbookdetails` (
   `StudentID` varchar(150) DEFAULT NULL,
   `IssuesDate` timestamp NULL DEFAULT current_timestamp(),
   `ReturnDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `Reminder` int(1) DEFAULT NULL,
   `RetrunStatus` int(1) DEFAULT NULL,
   `fine` int(11) DEFAULT NULL,
   `remark` mediumtext NOT NULL
@@ -159,14 +160,14 @@ CREATE TABLE `tblissuedbookdetails` (
 -- Dumping data for table `tblissuedbookdetails`
 --
 
-INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `ReturnDate`, `RetrunStatus`, `fine`, `remark`) VALUES
-(1, 1, 'SID002', '2025-01-13 11:12:40', '2025-01-14 06:00:56', 1, 0, 'NA'),
-(2, 7, 'SID010', '2025-01-14 05:55:25', NULL, NULL, NULL, 'NA'),
-(3, 1, 'SID010', '2025-01-14 05:55:39', NULL, NULL, NULL, 'NA'),
-(5, 1, 'SID002', '2025-01-14 06:02:14', '2025-01-14 06:03:36', 1, 0, 'ds'),
-(6, 7, 'SID012', '2025-01-17 14:16:31', NULL, NULL, NULL, 'NA'),
-(7, 13, 'SID013', '2025-01-17 14:24:47', '2025-01-17 14:25:52', 1, 0, 'NA'),
-(8, 13, 'SID012', '2025-01-17 14:25:34', NULL, NULL, NULL, 'NA');
+INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `ReturnDate`, `Reminder`, `RetrunStatus`, `fine`, `remark`) VALUES
+(1, 1, 'SID002', '2025-01-13 11:12:40', '2025-01-14 06:00:56', 0, 1, 0, 'NA'),
+(2, 7, 'SID010', '2025-01-14 05:55:25', NULL, 0, NULL, NULL, 'NA'),
+(3, 1, 'SID010', '2025-01-14 05:55:39', '2026-02-25 08:01:03', 3, NULL, NULL, 'NA'),
+(5, 1, 'SID002', '2025-01-14 06:02:14', '2025-01-14 06:03:36', 0, 1, 0, 'ds'),
+(6, 7, 'SID012', '2025-01-17 14:16:31', NULL, 0, NULL, NULL, 'NA'),
+(7, 13, 'SID013', '2025-01-17 14:24:47', '2025-01-17 14:25:52', 0, 1, 0, 'NA'),
+(8, 13, 'SID012', '2025-01-17 14:25:34', NULL, 0, NULL, NULL, 'NA');
 
 -- --------------------------------------------------------
 
@@ -192,14 +193,14 @@ CREATE TABLE `tblstudents` (
 --
 
 INSERT INTO `tblstudents` (`id`, `StudentId`, `FullName`, `EmailId`, `MobileNumber`, `Password`, `Status`, `approval`, `RegDate`, `UpdationDate`) VALUES
-(1, 'SID002', 'Anuj kumar', 'anujk@gmail.com', '9865472555', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-22 12:48:46'),
-(4, 'SID005', 'sdfsd', 'csfsd@dfsfks.com', '8569710025', '92228410fc8b872914e023160cf4ae8f', 1, 1, '2024-01-03 07:23:03', '2026-02-22 12:48:46'),
-(8, 'SID009', 'test', 'test@gmail.com', '2359874527', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-22 12:48:46'),
-(9, 'SID010', 'Amit', 'amit@gmail.com', '8585856224', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-22 12:48:46'),
-(10, 'SID011', 'Sarita Pandey', 'sarita@gmail.com', '4672423754', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-22 12:48:46'),
-(11, 'SID012', 'John Doe', 'john@test.com', '1234569870', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-22 12:48:46'),
-(12, 'SID013', 'Ajay Kumar Singh', 'ajay12@t.com', '1231231230', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2025-01-17 14:20:50', '2026-02-22 12:48:46'),
-(13, 'SID020', 'හිමාල් සරත්චන්ද්‍ර', 'hp@gmail.com', '0779209137', '698d51a19d8a121ce581499d7b701668', 1, 1, '2026-02-22 12:45:37', '2026-02-22 12:49:10');
+(1, 'SID002', 'Anuj kumar', 'anujk@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
+(4, 'SID005', 'sdfsd', 'csfsd@dfsfks.com', '94779209137', '92228410fc8b872914e023160cf4ae8f', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
+(8, 'SID009', 'test', 'test@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
+(9, 'SID010', 'Amit', 'amit@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
+(10, 'SID011', 'Sarita Pandey', 'sarita@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
+(11, 'SID012', 'Chamila ', 'john@test.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
+(12, 'SID013', 'Ajay Kumar Singh', 'ajay12@t.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2025-01-17 14:20:50', '2026-02-25 08:08:05'),
+(13, 'SID020', 'හිමාල් සරත්චන්ද්‍ර', 'hp@gmail.com', '94779209137', '698d51a19d8a121ce581499d7b701668', 1, 1, '2026-02-22 12:45:37', '2026-02-25 08:08:05');
 
 --
 -- Indexes for dumped tables

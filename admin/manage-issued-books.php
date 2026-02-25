@@ -136,12 +136,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>ISBN </th>
                                                 <th>Issued Date</th>
                                                 <th style="min-width: 105px;">Status</th>
-                                                <th style="min-width: 180px;">Details</th>
+                                                <th style="min-width: 75px;">Reminder</th>
+                                                <th style="min-width: 130px;">Details</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $sql = "SELECT tblstudents.MobileNumber,tblstudents.FullName,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
+                                            <?php $sql = "SELECT tblissuedbookdetails.id, tblstudents.MobileNumber,tblstudents.FullName,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -153,6 +154,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
                                                                     <input type="checkbox" <?php echo ($result->ReturnDate == "") ? "" : "disabled" ?>>
+                                                                    <input type="hidden" value="<?php echo $result->id ?>">
                                                                 </span>
                                                             </div><!-- /input-group -->
                                                         </td>
@@ -173,10 +175,16 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                                                 echo ("<span style='padding: 2px 5px;' class='alert alert-success  p-0' role='alert'>Returned</span>");
                                                                             }
                                                                             ?></td>
+                                                        <td class="center"><?php if ($result->Reminder != "") {
+                                                                                echo ("<span style='padding: 2px 5px;' class='alert alert-info' role='alert'>" + $result->Reminder + "</span>");
+                                                                            } else {
+                                                                                echo ("<span style='padding: 2px 5px;' class='alert alert-info' role='alert'>Not Sent</span>");
+                                                                            }
+                                                                            ?></td>
                                                         <td class="center"><?php if ($result->ReturnDate == "") {
                                                                                 $status = checkOverdueStatus($result->IssuesDate);
                                                                                 if ($status['is_late']) {
-                                                                                    echo ($status['days_late'] . " day(s) overdue!<br/>Current Fine Rs. " . ($status['days_late'] * 2));
+                                                                                    echo ($status['days_late'] . " day(s) overdue!<br/>Current Fine : Rs. " . ($status['days_late'] * 2));
                                                                                 } else {
                                                                                     echo ("The book is not overdue yet.");
                                                                                 }

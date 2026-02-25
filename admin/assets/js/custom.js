@@ -61,14 +61,15 @@
 
                 if (isChecked) {
                     var rowObject = {
-                        id: $row.find('td:eq(1)').text().trim(),
+                        issueID: $row.find('input[type="hidden"]').val(),
                         studentName: $row.find('td:eq(2)').text().trim(),
                         mobileNumber: $row.find('td:eq(3)').text().trim(),
                         bookName: $row.find('td:eq(4)').text().trim(),
                         isbn: $row.find('td:eq(5)').text().trim(),
                         issuedDate: $row.find('td:eq(6)').text().trim(),
                         status: $row.find('td:eq(7)').text().trim(),
-                        details: $row.find('td:eq(8)').text().trim()
+                        reminder: $row.find('td:eq(8)').text().trim(),
+                        details: $row.find('td:eq(9)').text().trim()
                     };
 
                     tableData.push(rowObject);
@@ -99,7 +100,7 @@
 
                         // Prepare your message
                         let detailsArray = value.details.split('!');
-                        let message = "Hi " + value.studentName + ",\n\nThe book " + value.bookName + " is now " + detailsArray[0] + "!\n" + detailsArray[1] + ". \n\nPlease return it to the MOHA Library soon!";
+                        let message = "Hi " + value.studentName + ",\n\nThe book \"" + value.bookName + "\" is now " + detailsArray[0] + "!\n\n" + detailsArray[1] + " \n\nPlease return it to the MOHA Library soon!";
 
                         // 3. Use 'await' with $.ajax wrapped in a promise
                         await $.ajax({
