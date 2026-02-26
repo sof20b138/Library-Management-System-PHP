@@ -108,7 +108,9 @@
                             type: 'POST',
                             data: {
                                 destination: value.mobileNumber,
-                                message: message
+                                message: message,
+                                issueid: value.issueID,
+                                reminder: value.reminder
                             },
                             timeout: 9000,
                             headers: { 'X-Requested-With': 'XMLHttpRequest' },
