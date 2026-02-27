@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2026 at 12:01 PM
+-- Generation Time: Feb 27, 2026 at 11:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -150,7 +150,7 @@ CREATE TABLE `tblissuedbookdetails` (
   `StudentID` varchar(150) DEFAULT NULL,
   `IssuesDate` timestamp NULL DEFAULT current_timestamp(),
   `ReturnDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
-  `Reminder` int(1) DEFAULT NULL,
+  `Reminder` int(11) DEFAULT NULL,
   `RetrunStatus` int(1) DEFAULT NULL,
   `fine` int(11) DEFAULT NULL,
   `remark` mediumtext NOT NULL
@@ -161,13 +161,13 @@ CREATE TABLE `tblissuedbookdetails` (
 --
 
 INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `ReturnDate`, `Reminder`, `RetrunStatus`, `fine`, `remark`) VALUES
-(1, 1, 'SID002', '2025-01-13 11:12:40', '2025-01-14 06:00:56', 0, 1, 0, 'NA'),
-(2, 7, 'SID010', '2025-01-14 05:55:25', NULL, 0, NULL, NULL, 'NA'),
-(3, 1, 'SID010', '2025-01-14 05:55:39', '2026-02-25 08:01:03', 3, NULL, NULL, 'NA'),
-(5, 1, 'SID002', '2025-01-14 06:02:14', '2025-01-14 06:03:36', 0, 1, 0, 'ds'),
+(1, 1, 'SID002', '2026-02-06 11:12:40', '2026-02-27 10:36:23', 5, 1, 12, 'NA'),
+(2, 7, 'SID010', '2026-02-27 05:55:25', NULL, 1, NULL, NULL, 'NA'),
+(3, 1, 'SID010', '2025-01-14 05:55:39', NULL, 0, NULL, NULL, 'NA'),
+(5, 1, 'SID002', '2025-01-14 06:02:14', NULL, 0, NULL, NULL, 'ds'),
 (6, 7, 'SID012', '2025-01-17 14:16:31', NULL, 0, NULL, NULL, 'NA'),
-(7, 13, 'SID013', '2025-01-17 14:24:47', '2025-01-17 14:25:52', 0, 1, 0, 'NA'),
-(8, 13, 'SID012', '2025-01-17 14:25:34', NULL, 0, NULL, NULL, 'NA');
+(7, 13, 'SID013', '2025-01-17 14:24:47', '2026-02-27 10:25:12', 0, NULL, 13, 'NA'),
+(8, 13, 'SID012', '2025-01-17 14:25:34', '2026-02-27 10:25:14', 0, NULL, 12, 'NA');
 
 -- --------------------------------------------------------
 
@@ -193,14 +193,15 @@ CREATE TABLE `tblstudents` (
 --
 
 INSERT INTO `tblstudents` (`id`, `StudentId`, `FullName`, `EmailId`, `MobileNumber`, `Password`, `Status`, `approval`, `RegDate`, `UpdationDate`) VALUES
-(1, 'SID002', 'Anuj kumar', 'anujk@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
-(4, 'SID005', 'sdfsd', 'csfsd@dfsfks.com', '94779209137', '92228410fc8b872914e023160cf4ae8f', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
-(8, 'SID009', 'test', 'test@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
+(1, 'SID002', 'Anuj kumar', 'anujk@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-27 07:47:02'),
+(4, 'SID005', 'sdfsd', 'csfsd@dfsfks.com', '94779209137', '92228410fc8b872914e023160cf4ae8f', 1, 1, '2024-01-03 07:23:03', '2026-02-27 07:47:01'),
+(8, 'SID009', 'test', 'test@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-27 07:47:05'),
 (9, 'SID010', 'Amit', 'amit@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
 (10, 'SID011', 'Sarita Pandey', 'sarita@gmail.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
 (11, 'SID012', 'Chamila ', 'john@test.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2024-01-03 07:23:03', '2026-02-25 08:08:05'),
 (12, 'SID013', 'Ajay Kumar Singh', 'ajay12@t.com', '94779209137', 'f925916e2754e5e03f75dd58a5733251', 1, 1, '2025-01-17 14:20:50', '2026-02-25 08:08:05'),
-(13, 'SID020', 'හිමාල් සරත්චන්ද්‍ර', 'hp@gmail.com', '94779209137', '698d51a19d8a121ce581499d7b701668', 1, 1, '2026-02-22 12:45:37', '2026-02-25 08:08:05');
+(13, 'SID020', 'හිමාල් සරත්චන්ද්‍ර', 'hp@gmail.com', '94779209137', '698d51a19d8a121ce581499d7b701668', 1, 1, '2026-02-22 12:45:37', '2026-02-25 08:08:05'),
+(14, 'SID021', 'B.G.H. Sarathchandra', 'sof20b138@uovt.ac.lk', '0779209137', '36e506f737add5d383f941255ce3b563', 1, 1, '2026-02-27 07:39:36', '2026-02-27 07:47:03');
 
 --
 -- Indexes for dumped tables
@@ -281,7 +282,7 @@ ALTER TABLE `tblissuedbookdetails`
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
