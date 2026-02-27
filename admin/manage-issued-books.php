@@ -136,19 +136,21 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>ISBN </th>
                                                 <th>Issued Date</th>
                                                 <th style="min-width: 105px;">Status</th>
-                                                <th style="min-width: 75px;">Reminder</th>
-                                                <th style="min-width: 130px;">Details</th>
+                                                <th style="min-width: 100px;">Reminder</th>
+                                                <th style="min-width: 140px;">Details</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $sql = "SELECT tblissuedbookdetails.id, tblstudents.MobileNumber,tblstudents.FullName,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
+                                            <?php $sql = "SELECT tblissuedbookdetails.Reminder, tblissuedbookdetails.fine, tblissuedbookdetails.id, tblstudents.MobileNumber,tblstudents.FullName,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
                                             $cnt = 1;
                                             if ($query->rowCount() > 0) {
-                                                foreach ($results as $result) {               ?>
+                                                foreach ($results as $result) {               
+                                                    $status = checkOverdueStatus($result->IssuesDate);
+                                                    ?>
                                                     <tr class="odd gradeX">
                                                         <td class="center">
                                                             <div class="input-group">
@@ -165,7 +167,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         <td class="center"><?php echo htmlentities($result->ISBNNumber); ?></td>
                                                         <td class="center"><?php echo htmlentities($result->IssuesDate); ?></td>
                                                         <td class="center"><?php if ($result->ReturnDate == "") {
-                                                                                $status = checkOverdueStatus($result->IssuesDate);
+                                                                                $dailyfine = 5;
                                                                                 if ($status['is_late']) {
                                                                                     echo ("<span style='padding: 2px 5px;' class='alert alert-danger' role='alert'>Not Returned</span>");
                                                                                 } else {
@@ -175,21 +177,25 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                                                 echo ("<span style='padding: 2px 5px;' class='alert alert-success  p-0' role='alert'>Returned</span>");
                                                                             }
                                                                             ?></td>
-                                                        <td class="center"><?php if ($result->Reminder != "") {
-                                                                                echo ("<span style='padding: 2px 5px;' class='alert alert-info' role='alert'>" + $result->Reminder + "</span>");
-                                                                            } else {
+                                                        <td class="center"><?php if ($result->Reminder == "0") {
                                                                                 echo ("<span style='padding: 2px 5px;' class='alert alert-info' role='alert'>Not Sent</span>");
+                                                                            } else {
+                                                                                echo ("<span style='padding: 2px 5px;' class='alert alert-info' role='alert'>Reminder " . $result->Reminder . "</span>");
                                                                             }
                                                                             ?></td>
                                                         <td class="center"><?php if ($result->ReturnDate == "") {
                                                                                 $status = checkOverdueStatus($result->IssuesDate);
                                                                                 if ($status['is_late']) {
-                                                                                    echo ($status['days_late'] . " day(s) overdue!<br/>Current Fine : Rs. " . ($status['days_late'] * 2));
+                                                                                    echo ($status['days_late'] . " day(s) overdue!<br/>Current Fine : Rs. " . ($status['days_late'] * $dailyfine));
                                                                                 } else {
                                                                                     echo ("The book is not overdue yet.");
                                                                                 }
                                                                             } else {
                                                                                 echo ("Date : " . $result->ReturnDate);
+
+                                                                                if($result->fine = "" || $result->fine != 0){
+                                                                                    echo ("<br/>Charged : Rs. " . $result->fine);
+                                                                                }
                                                                             }
                                                                             ?></td>
                                                         <td class="center">

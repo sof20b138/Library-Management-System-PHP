@@ -100,13 +100,11 @@ foreach($results as $result)
                                             {
                                                 echo htmlentities("Pending...");
                                             } else {
-
-
-                                            echo htmlentities("Approved");
-}
+                                                echo htmlentities("Approved");
+                                            }
                                             ?></td>
                                             <td class="center">
-                                                <a href="new-reders.php?apid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Are you sure you want to approve this Reder?');" >  <button class="btn btn-danger"> Approve</button>
+                                                <a href="new-readers.php?apid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Are you sure you want to approve this Reder?');" >  <button class="btn btn-danger"> Approve</button>
                                             </td>
                                         </tr>
  <?php $cnt=$cnt+1;}} ?>                                      
