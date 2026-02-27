@@ -120,7 +120,7 @@ error:function (){}
 
 <div class="form-group">
 <label>Mobile Number :</label>
-<input class="form-control" type="text" name="mobileno" maxlength="10" autocomplete="off" required />
+<input class="form-control" placeholder="e.g. 94771234567" pattern="^[1-9]\d{6,14}$" type="text" name="mobileno" maxlength="11" autocomplete="off" required />
 </div>
                                         
 <div class="form-group">

@@ -101,6 +101,9 @@
                         // Prepare your message
                         let detailsArray = value.details.split('!');
                         let message = "Hi " + value.studentName + ",\n\nThe book \"" + value.bookName + "\" is now " + detailsArray[0] + "!\n\n" + detailsArray[1] + " \n\nPlease return it to the MOHA Library soon!";
+                        const extractedReminder = (value.reminder && typeof value.reminder === 'string')
+                            ? (value.reminder.match(/\d+/) || [0])[0]
+                            : 0;
 
                         // 3. Use 'await' with $.ajax wrapped in a promise
                         await $.ajax({
@@ -109,14 +112,14 @@
                             data: {
                                 destination: value.mobileNumber,
                                 message: message,
-                                issueid: value.issueID,
-                                reminder: value.reminder
+                                issueid: parseInt(value.issueID),
+                                reminder: parseInt(extractedReminder)
                             },
                             timeout: 9000,
                             headers: { 'X-Requested-With': 'XMLHttpRequest' },
                             success: function (response) {
                                 console.log('Success for ' + value.studentName);
-
+  
                                 // Update Progress Bar
                                 let currentProgress = Math.round(percentageStep * count);
                                 $('.send-status').text('Sending.... (' + count + '/' + tableData.length + ')');
@@ -142,10 +145,12 @@
                     // 5. Final completion logic (Only runs AFTER the loop is totally done)
                     console.log('All SMS sent. Cleaning up...');
                     $('.send-status').text('Success....!');
+                    
                     setTimeout(function () {
                         $('.send-sms-progress-bar-container').addClass("hidden");
                         location.reload();
                     }, 2500);
+                    
                 }
 
                 // 6. Call the function

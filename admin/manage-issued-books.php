@@ -177,13 +177,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                                                 echo ("<span style='padding: 2px 5px;' class='alert alert-success  p-0' role='alert'>Returned</span>");
                                                                             }
                                                                             ?></td>
-                                                        <td class="center"><?php if ($result->Reminder == "0") {
+                                                        <td class="center"><?php if ($result->Reminder == 0 || $result->Reminder == null) {
                                                                                 echo ("<span style='padding: 2px 5px;' class='alert alert-info' role='alert'>Not Sent</span>");
                                                                             } else {
                                                                                 echo ("<span style='padding: 2px 5px;' class='alert alert-info' role='alert'>Reminder " . $result->Reminder . "</span>");
                                                                             }
                                                                             ?></td>
-                                                        <td class="center"><?php if ($result->ReturnDate == "") {
+                                                        <td class="center"><?php if ($result->ReturnDate == "" || $result->ReturnDate == null) {
                                                                                 $status = checkOverdueStatus($result->IssuesDate);
                                                                                 if ($status['is_late']) {
                                                                                     echo ($status['days_late'] . " day(s) overdue!<br/>Current Fine : Rs. " . ($status['days_late'] * $dailyfine));
@@ -193,7 +193,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                                             } else {
                                                                                 echo ("Date : " . $result->ReturnDate);
 
-                                                                                if($result->fine = "" || $result->fine != 0){
+                                                                                if($result->fine != "" || $result->fine != 0){
                                                                                     echo ("<br/>Charged : Rs. " . $result->fine);
                                                                                 }
                                                                             }

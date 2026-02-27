@@ -27,7 +27,36 @@ $_SESSION['msg']="Book Returned successfully";
 header('location:manage-issued-books.php');
 
 
+}
 
+
+function checkOverdueStatus($issueDateString) {
+    // 1. Convert the input string into a DateTime object
+    $issueDate = new DateTime($issueDateString);
+
+    // 2. Create the due date by adding 14 days to the issue date
+    $dueDate = clone $issueDate;
+    $dueDate->modify('+14 days');
+
+    // 3. Get the current date and time
+    $now = new DateTime();
+
+    // 4. Compare current time with due date
+    if ($now > $dueDate) {
+        // Calculate the difference
+        $diff = $now->diff($dueDate);
+
+        return [
+            'is_late' => true,
+            'days_late' => $diff->days // Total number of days overdue
+        ];
+    }
+
+    // Not late
+    return [
+        'is_late' => false,
+        'days_late' => 0
+    ];
 }
 ?>
 <!DOCTYPE html>
@@ -198,14 +227,24 @@ foreach($results as $result)
 
 <div class="col-md-12"> 
 <div class="form-group">
-<label>Fine (in USD) :</label>
-<?php 
-if($result->fine=="")
-{?>
-<input class="form-control" type="text" name="fine" id="fine"  required />
 
-<?php }else {
-echo htmlentities($result->fine);
+<?php 
+if($result->fine=="" || $result->fine==null)
+{
+    $status = checkOverdueStatus($result->IssuesDate);
+    $dailyfine = 5;
+    if ($status['is_late']) {
+        echo "<label>Fine (in Rs. ) :</label> " . ($status['days_late'] * $dailyfine);
+        echo '<input class="form-control" type="hidden" name="fine" id="fine" required value="'.($status['days_late'] * $dailyfine).'" />';
+    } else {
+            echo "<label>Fine (in Rs. ) :</label> " . 0;
+            echo '<input class="form-control" type="hidden" name="fine" id="fine" required value="0" />';
+    }    
+?>
+<?php }else { ?>
+    <label>Charged (in Rs. ) :</label>
+    <?php
+    echo $result->fine;
 }
 ?>
 </div>
