@@ -18,7 +18,7 @@ $query = $dbh->prepare($sql);
 $query -> bindParam(':id',$id, PDO::PARAM_STR);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query -> execute();
-header('location:reg-students.php');
+header('location:reg-users.php');
 }
 
 
@@ -33,7 +33,7 @@ $query = $dbh->prepare($sql);
 $query -> bindParam(':id',$id, PDO::PARAM_STR);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query -> execute();
-header('location:reg-students.php');
+header('location:reg-users.php');
 }
 
 
@@ -66,8 +66,8 @@ header('location:reg-students.php');
          <div class="container">
         <div class="row pad-botm">
             <div class="col-md-12">
-                <?php $sid=$_GET['stdid']; ?>
-                <h4 class="header-line">#<?php echo $sid;?> Book Issued History</h4>
+                <?php $NIC=$_GET['NIC']; ?>
+                <h4 class="header-line">#<?php echo $NIC;?> Book Issued History</h4>
     </div>
 
 
@@ -78,7 +78,7 @@ header('location:reg-students.php');
                     <div class="panel panel-default">
                         <div class="panel-heading">
 
-<?php echo $sid;?> Details
+<?php echo $NIC;?> Details
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -86,8 +86,9 @@ header('location:reg-students.php');
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Student ID</th>
-                                            <th>Student Name</th>
+                                            <th>NIC</th>
+                                            <th>Employee No.</th>
+                                            <th>Name</th>
                                             <th>Issued Book  </th>
                                             <th>Issued Date</th>
                                             <th>Returned Date</th>
@@ -98,7 +99,7 @@ header('location:reg-students.php');
                                     <tbody>
 <?php 
 
-$sql = "SELECT tblstudents.StudentId ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.StudentId='$sid' ";
+$sql = "SELECT tblstudents.EmpNo, tblstudents.NIC ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.NIC='$NIC' ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -109,14 +110,15 @@ foreach($results as $result)
 {               ?>                                      
                                         <tr class="odd gradeX">
                                             <td class="center"><?php echo htmlentities($cnt);?></td>
-                                            <td class="center"><?php echo htmlentities($result->StudentId);?></td>
+                                            <td class="center"><?php echo htmlentities($result->NIC);?></td>
+                                            <td class="center"><?php echo htmlentities($result->EmpNo);?></td>
                                             <td class="center"><?php echo htmlentities($result->FullName);?></td>
                                             <td class="center"><?php echo htmlentities($result->BookName);?></td>
                                             <td class="center"><?php echo htmlentities($result->IssuesDate);?></td>
                                             <td class="center"><?php if($result->ReturnDate==''): echo "Not returned yet";
                                             else: echo htmlentities($result->ReturnDate); endif;?></td>
                                              <td class="center"><?php if($result->ReturnDate==''): echo "Not returned yet";
-                                              else: echo $result->fine; endif;
+                                              else: echo "Rs. " . $result->fine; endif;
                                              ?></td>
                                             
                             

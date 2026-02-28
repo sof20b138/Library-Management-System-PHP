@@ -62,10 +62,9 @@
                 if (isChecked) {
                     var rowObject = {
                         issueID: $row.find('input[type="hidden"]').val(),
-                        studentName: $row.find('td:eq(2)').text().trim(),
-                        mobileNumber: $row.find('td:eq(3)').text().trim(),
-                        bookName: $row.find('td:eq(4)').text().trim(),
-                        isbn: $row.find('td:eq(5)').text().trim(),
+                        studentName: $row.find('td:eq(3)').text().trim(),
+                        mobileNumber: $row.find('td:eq(4)').text().trim(),
+                        bookNameISBN: $row.find('td:eq(5)').text().trim(),
                         issuedDate: $row.find('td:eq(6)').text().trim(),
                         status: $row.find('td:eq(7)').text().trim(),
                         reminder: $row.find('td:eq(8)').text().trim(),
@@ -97,14 +96,18 @@
 
                     for (let i = 0; i < tableData.length; i++) {
                         let value = tableData[i];
-
+                        let bookName = "";
+                        const bookmatch = value.bookNameISBN.match(/Book Name\s*:\s*(.*)/);
+                        if (bookmatch) {
+                            bookName += bookmatch[1].trim();
+                        }
                         // Prepare your message
                         let detailsArray = value.details.split('!');
-                        let message = "Hi " + value.studentName + ",\n\nThe book \"" + value.bookName + "\" is now " + detailsArray[0] + "!\n\n" + detailsArray[1] + " \n\nPlease return it to the MOHA Library soon!";
+                        let message = "Hi " + value.studentName + ",\n\nThe book \"" + bookName + "\" is now " + detailsArray[0] + "!\n\n" + detailsArray[1] + " \n\nPlease return it to the MOHA Library soon!";
                         const extractedReminder = (value.reminder && typeof value.reminder === 'string')
                             ? (value.reminder.match(/\d+/) || [0])[0]
                             : 0;
-
+                        
                         // 3. Use 'await' with $.ajax wrapped in a promise
                         await $.ajax({
                             url: 'api/send_sms.php',
@@ -145,12 +148,12 @@
                     // 5. Final completion logic (Only runs AFTER the loop is totally done)
                     console.log('All SMS sent. Cleaning up...');
                     $('.send-status').text('Success....!');
-                    
+ 
                     setTimeout(function () {
                         $('.send-sms-progress-bar-container').addClass("hidden");
                         location.reload();
                     }, 2500);
-                    
+             
                 }
 
                 // 6. Call the function

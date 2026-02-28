@@ -60,8 +60,8 @@
                             <li>
                                 <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Manage Readers <i class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="new-readers.php">New User Approvals</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="reg-students.php">Approved Readers</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="new-users.php">New User Approvals</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="reg-users.php">Approved Readers</a></li>
                                 </ul>
                             </li>
                     

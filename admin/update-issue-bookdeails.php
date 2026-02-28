@@ -81,7 +81,7 @@ function getstudent() {
 $("#loaderIcon").show();
 jQuery.ajax({
 url: "get_student.php",
-data:'studentid='+$("#studentid").val(),
+data:'NIC='+$("#NIC").val(),
 type: "POST",
 success:function(data){
 $("#get_student_name").html(data);
@@ -139,7 +139,7 @@ Issued Book Details
 <form role="form" method="post">
 <?php 
 $rid=intval($_GET['rid']);
-$sql = "SELECT tblstudents.StudentId ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblissuedbookdetails.id=:rid";
+$sql = "SELECT tblstudents.RegDate, tblstudents.EmpNo, tblstudents.NIC ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblissuedbookdetails.id=:rid";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':rid',$rid,PDO::PARAM_STR);
 $query->execute();
@@ -153,30 +153,43 @@ foreach($results as $result)
 
 
 <input type="hidden" name="bookid" value="<?php echo htmlentities($result->bid);?>">
-<h4>Student Details</h4>
+<h4>User Details</h4>
 <hr />
+
 <div class="col-md-6"> 
 <div class="form-group">
-<label>Student ID :</label>
-<?php echo htmlentities($result->StudentId);?>
+<label>Employee No. :</label>
+<?php echo htmlentities($result->EmpNo);?>
 </div></div>
 
 <div class="col-md-6"> 
 <div class="form-group">
-<label>Student Name :</label>
+<label>NIC :</label>
+<?php echo htmlentities($result->NIC);?>
+</div></div>
+
+<div class="col-md-6"> 
+<div class="form-group">
+<label>Name :</label>
 <?php echo htmlentities($result->FullName);?>
 </div></div>
 
 <div class="col-md-6"> 
 <div class="form-group">
-<label>Student Email Id :</label>
+<label>Email:</label>
 <?php echo htmlentities($result->EmailId);?>
 </div></div>
 
 <div class="col-md-6"> 
 <div class="form-group">
-<label>Student Contact No :</label>
+<label>Contact No :</label>
 <?php echo htmlentities($result->MobileNumber);?>
+</div></div>
+
+<div class="col-md-6"> 
+<div class="form-group">
+<label>Registered Date :</label>
+<?php echo htmlentities($result->RegDate);?>
 </div></div>
 
 

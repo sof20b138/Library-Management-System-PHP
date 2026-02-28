@@ -62,10 +62,10 @@ Books Listed
                             <i class="fa fa-recycle fa-5x"></i>
 <?php 
 $rsts=0;
- $sid=$_SESSION['stdid'];
-$sql2 ="SELECT id from tblissuedbookdetails where StudentID=:sid and (RetrunStatus=:rsts || RetrunStatus is null || RetrunStatus='')";
+$NIC=$_SESSION['NIC'];
+$sql2 ="SELECT id from tblissuedbookdetails where NIC=:NIC and (RetrunStatus=:rsts || RetrunStatus is null || RetrunStatus='')";
 $query2 = $dbh -> prepare($sql2);
-$query2->bindParam(':sid',$sid,PDO::PARAM_STR);
+$query2->bindParam(':NIC',$NIC,PDO::PARAM_STR);
 $query2->bindParam(':rsts',$rsts,PDO::PARAM_STR);
 $query2->execute();
 $results2=$query2->fetchAll(PDO::FETCH_OBJ);
@@ -79,8 +79,8 @@ $returnedbooks=$query2->rowCount();
 
 <?php 
 
-$ret =$dbh -> prepare("SELECT id from tblissuedbookdetails where StudentID=:sid");
-$ret->bindParam(':sid',$sid,PDO::PARAM_STR);
+$ret =$dbh -> prepare("SELECT id from tblissuedbookdetails where NIC=:NIC");
+$ret->bindParam(':NIC',$NIC,PDO::PARAM_STR);
 $ret->execute();
 $results22=$ret->fetchAll(PDO::FETCH_OBJ);
 $totalissuedbook=$ret->rowCount();

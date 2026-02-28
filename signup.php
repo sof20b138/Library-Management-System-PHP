@@ -5,26 +5,21 @@ error_reporting(0);
 if(isset($_POST['signup']))
 {
  
-//Code for student ID
-$count_my_page = ("studentid.txt");
-$hits = file($count_my_page);
-$hits[0] ++;
-$fp = fopen($count_my_page , "w");
-fputs($fp , "$hits[0]");
-fclose($fp); 
-$StudentId= $hits[0];   
+$NIC= $_POST['NIC'];   
+$EmpNo= $_POST['EmpNo'];   
 $fname=$_POST['fullanme'];
-$mobileno=$_POST['mobileno'];
-$email=$_POST['email']; 
+$MobileNumber=$_POST['MobileNumber'];
+$EmailId=$_POST['EmailId']; 
 $password=md5($_POST['password']); 
 $status=0;
 $approval=0;
-$sql="INSERT INTO  tblstudents(StudentId,FullName,MobileNumber,EmailId,Password,Status,Approval) VALUES(:StudentId,:fname,:mobileno,:email,:password,:status,:approval)";
+$sql="INSERT INTO  tblstudents(EmpNo,NIC,FullName,MobileNumber,EmailId,Password,Status,Approval) VALUES(:EmpNo,:NIC,:fname,:MobileNumber,:EmailId,:password,:status,:approval)";
 $query = $dbh->prepare($sql);
-$query->bindParam(':StudentId',$StudentId,PDO::PARAM_STR);
+$query->bindParam(':NIC',$NIC,PDO::PARAM_STR);
+$query->bindParam(':EmpNo',$EmpNo,PDO::PARAM_STR);
 $query->bindParam(':fname',$fname,PDO::PARAM_STR);
-$query->bindParam(':mobileno',$mobileno,PDO::PARAM_STR);
-$query->bindParam(':email',$email,PDO::PARAM_STR);
+$query->bindParam(':MobileNumber',$MobileNumber,PDO::PARAM_STR);
+$query->bindParam(':EmailId',$EmailId,PDO::PARAM_STR);
 $query->bindParam(':password',$password,PDO::PARAM_STR);
 $query->bindParam(':status',$status,PDO::PARAM_STR);
 $query->bindParam(':approval',$approval,PDO::PARAM_STR);
@@ -74,18 +69,31 @@ return true;
 }
 </script>
 <script>
-function checkAvailability() {
-$("#loaderIcon").show();
-jQuery.ajax({
-url: "check_availability.php",
-data:'emailid='+$("#emailid").val(),
-type: "POST",
-success:function(data){
-$("#user-availability-status").html(data);
-$("#loaderIcon").hide();
-},
-error:function (){}
-});
+function checkAvailability(fieldname) {
+
+    $("#loaderIcon").show();
+    
+    // Get the value of the input field dynamically
+    var fieldValue = $('#' + fieldname).val();
+
+    jQuery.ajax({
+        url: "check_availability.php",
+        // Constructing the data object dynamically
+        data: { 
+            [fieldname]: fieldValue
+        },
+        type: "POST",
+        success: function(data) {
+            console.log(data);
+            $('#availability-status-' + fieldname).html(data);
+            $("#loaderIcon").hide();
+            
+        },
+        error: function () {
+            $("#loaderIcon").hide();
+        }
+    });
+
 }
 </script>    
 
@@ -117,16 +125,29 @@ error:function (){}
 <input class="form-control" type="text" name="fullanme" autocomplete="off" required />
 </div>
 
+<div class="form-group">
+<label>NIC No.</label>
+<input class="form-control" onBlur="checkAvailability('NIC')" placeholder="e.g. 911222555V or 199112202555" pattern="^([0-9]{9}[VX]|[0-9]{12})$" type="text" name="NIC" id="NIC" autocomplete="off" required />
+<span id="availability-status-NIC" style="font-size:12px;"></span> 
+</div>
 
 <div class="form-group">
-<label>Mobile Number :</label>
-<input class="form-control" placeholder="e.g. 94771234567" pattern="^[1-9]\d{6,14}$" type="text" name="mobileno" maxlength="11" autocomplete="off" required />
+<label>Employee No.</label>
+<input class="form-control" onBlur="checkAvailability('EmpNo')" type="text" name="EmpNo" id="EmpNo" autocomplete="off" required />
+<span id="availability-status-EmpNo" style="font-size:12px;"></span> 
+</div>
+
+
+<div class="form-group">
+<label>Mobile Number</label>
+<input class="form-control" onBlur="checkAvailability('MobileNumber')" placeholder="e.g. 94771234567" pattern="^[1-9]\d{6,14}$" type="text" name="MobileNumber" id="MobileNumber" maxlength="11" autocomplete="off" required />
+<span id="availability-status-MobileNumber" style="font-size:12px;"></span> 
 </div>
                                         
 <div class="form-group">
 <label>Enter Email</label>
-<input class="form-control" type="email" name="email" id="emailid" onBlur="checkAvailability()"  autocomplete="off" required  />
-   <span id="user-availability-status" style="font-size:12px;"></span> 
+<input class="form-control" onBlur="checkAvailability('EmailId')" type="email" name="EmailId" id="EmailId" autocomplete="off" required  />
+   <span id="availability-status-EmailId" style="font-size:12px;"></span> 
 </div>
 
 <div class="form-group">

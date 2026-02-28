@@ -130,11 +130,11 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             <tr>
                                                 <th></th>
                                                 <th>#</th>
-                                                <th>Student Name</th>
+                                                <th>NIC</th>
+                                                <th>Name</th>
                                                 <th>Mobile Number</th>
-                                                <th>Book Name</th>
-                                                <th>ISBN </th>
-                                                <th>Issued Date</th>
+                                                <th>ISBN and Book Name</th>
+                                                <th style="min-width: 90px;">Issued Date</th>
                                                 <th style="min-width: 105px;">Status</th>
                                                 <th style="min-width: 100px;">Reminder</th>
                                                 <th style="min-width: 140px;">Details</th>
@@ -142,31 +142,42 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $sql = "SELECT tblissuedbookdetails.Reminder, tblissuedbookdetails.fine, tblissuedbookdetails.id, tblstudents.MobileNumber,tblstudents.FullName,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
+                                            <?php $sql = "SELECT tblissuedbookdetails.Reminder, tblissuedbookdetails.fine, tblstudents.MobileNumber,tblstudents.NIC,tblstudents.EmpNo,tblstudents.FullName,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
                                             $cnt = 1;
                                             if ($query->rowCount() > 0) {
-                                                foreach ($results as $result) {               
+                                                foreach ($results as $result) {
                                                     $status = checkOverdueStatus($result->IssuesDate);
-                                                    ?>
+                                            ?>
                                                     <tr class="odd gradeX">
                                                         <td class="center">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                    <input type="checkbox" <?php echo ($result->ReturnDate == "") ? "" : "disabled" ?>>
-                                                                    <input type="hidden" value="<?php echo $result->id ?>">
+                                                                    <?php if ($result->ReturnDate == "" || $result->ReturnDate == null) { 
+                                                                        if ($status['is_late']) {
+                                                                            echo '<input type="checkbox">';
+                                                                        } else {
+                                                                            echo '<input type="checkbox" disabled>';
+                                                                        }    
+                                                                    } else{
+                                                                        echo '<input type="checkbox" disabled>';
+                                                                    }?>
+                                                                    <input type="hidden" value="<?php echo $result->rid ?>">
                                                                 </span>
                                                             </div><!-- /input-group -->
                                                         </td>
                                                         <td class="center"><?php echo htmlentities($cnt); ?></td>
+                                                        <td class="center"><?php echo htmlentities($result->NIC); ?></td>
                                                         <td class="center"><?php echo htmlentities($result->FullName); ?></td>
                                                         <td class="center"><?php echo htmlentities($result->MobileNumber); ?></td>
-                                                        <td class="center"><?php echo htmlentities($result->BookName); ?></td>
-                                                        <td class="center"><?php echo htmlentities($result->ISBNNumber); ?></td>
+                                                        <td class="center"><?php 
+                                                        echo "<strong>ISBN : </strong>". $result->ISBNNumber."<br/><br/>";
+                                                        echo "<strong>Book Name : </strong>". $result->BookName;
+                                                        ?></td>
                                                         <td class="center"><?php echo htmlentities($result->IssuesDate); ?></td>
-                                                        <td class="center"><?php if ($result->ReturnDate == "") {
+                                                        <td class="center"><?php if ($result->ReturnDate == "" || $result->ReturnDate == null) {
                                                                                 $dailyfine = 5;
                                                                                 if ($status['is_late']) {
                                                                                     echo ("<span style='padding: 2px 5px;' class='alert alert-danger' role='alert'>Not Returned</span>");
@@ -188,12 +199,12 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                                                 if ($status['is_late']) {
                                                                                     echo ($status['days_late'] . " day(s) overdue!<br/>Current Fine : Rs. " . ($status['days_late'] * $dailyfine));
                                                                                 } else {
-                                                                                    echo ("The book is not overdue yet.");
+                                                                                    echo ("Not overdue yet.");
                                                                                 }
                                                                             } else {
                                                                                 echo ("Date : " . $result->ReturnDate);
 
-                                                                                if($result->fine != "" || $result->fine != 0){
+                                                                                if ($result->fine != "" || $result->fine != 0) {
                                                                                     echo ("<br/>Charged : Rs. " . $result->fine);
                                                                                 }
                                                                             }

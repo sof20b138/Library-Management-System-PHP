@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2026 at 12:28 AM
--- Server version: 10.6.18-MariaDB
+-- Generation Time: Feb 28, 2026 at 02:33 PM
+-- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `FullName`, `AdminEmail`, `UserName`, `Password`, `updationDate`) VALUES
-(1, 'MOHA ADMIN', 'it@moha.gov.lk', 'mohaadmin', '277d72e3b5ce8935209744026c5addea', '2026-02-27 23:19:16');
+(1, 'MOHA ADMIN', 'it@moha.gov.lk', 'mohaadmin', '277d72e3b5ce8935209744026c5addea', '2026-02-28 12:02:28');
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,7 @@ INSERT INTO `tblauthors` (`id`, `AuthorName`, `creationDate`, `UpdationDate`) VA
 (12, 'Robert T. Kiyosak', '2023-12-31 21:23:03', '2025-01-07 06:18:50'),
 (13, 'Kelly Barnhill', '2023-12-31 21:23:03', '2025-01-07 06:18:50'),
 (14, 'Herbert Schildt', '2023-12-31 21:23:03', '2025-01-07 06:18:50'),
-(21, 'Test Author Name', '2026-02-27 23:21:52', NULL);
+(22, 'Test Author Name', '2026-02-28 05:47:44', '2026-02-28 05:47:54');
 
 -- --------------------------------------------------------
 
@@ -99,10 +99,10 @@ CREATE TABLE `tblbooks` (
 --
 
 INSERT INTO `tblbooks` (`id`, `BookName`, `CatId`, `AuthorId`, `ISBNNumber`, `BookPrice`, `bookImage`, `isIssued`, `RegDate`, `UpdationDate`, `bookQty`) VALUES
-(1, 'PHP And MySql programming', 5, 1, '222333', 20.00, '1efecc0ca822e40b7b673c0d79ae943f.jpg', 0, '2024-01-02 01:23:03', '2025-01-14 07:08:11', 10),
+(1, 'PHP And MySql programming', 4, 3, '222333', 20.00, '1efecc0ca822e40b7b673c0d79ae943f.jpg', 0, '2024-01-02 01:23:03', '2026-02-28 11:23:09', 10),
 (3, 'physics', 6, 4, '1111', 15.00, 'dd8267b57e0e4feee5911cb1e1a03a79.jpg', NULL, '2024-01-02 01:23:03', '2025-01-13 11:11:01', 10),
 (5, 'Murach\'s MySQL', 5, 1, '9350237695', 455.00, '5939d64655b4d2ae443830d73abc35b6.jpg', NULL, '2024-01-02 01:23:03', '2025-01-13 11:11:01', 20),
-(6, 'WordPress for Beginners 2022: A Visual Step-by-Step Guide to Mastering WordPress', 5, 10, 'B019MO3WCM', 100.00, '144ab706ba1cb9f6c23fd6ae9c0502b3.jpg', NULL, '2024-01-02 01:23:03', '2025-01-13 11:05:35', 15),
+(6, 'WordPress for Beginners 2022: A Visual Step-by-Step Guide to Mastering WordPress', 5, 10, 'B019MO3WCM', 100.00, '144ab706ba1cb9f6c23fd6ae9c0502b3.jpg', 0, '2024-01-02 01:23:03', '2026-02-28 06:12:24', 15),
 (7, 'WordPress Mastery Guide:', 5, 11, 'B09NKWH7NP', 53.00, '90083a56014186e88ffca10286172e64.jpg', 0, '2024-01-02 01:23:03', '2026-02-27 22:11:32', 14),
 (8, 'Rich Dad Poor Dad: What the Rich Teach Their Kids About Money That the Poor and Middle Class Do Not', 8, 12, 'B07C7M8SX9', 120.00, '52411b2bd2a6b2e0df3eb10943a5b640.jpg', NULL, '2024-01-02 01:23:03', '2025-01-13 11:05:41', 5),
 (9, 'The Girl Who Drank the Moon', 8, 13, '1848126476', 200.00, 'f05cd198ac9335245e1fdffa793207a7.jpg', NULL, '2024-01-02 01:23:03', '2025-01-13 11:05:45', 1),
@@ -137,7 +137,7 @@ INSERT INTO `tblcategory` (`id`, `CategoryName`, `Status`, `CreationDate`, `Upda
 (7, 'Management', 1, '2025-01-01 07:23:03', '2025-01-07 06:19:21'),
 (8, 'General', 1, '2025-01-01 07:23:03', '2025-01-07 06:19:21'),
 (9, 'Programming', 1, '2025-01-01 07:23:03', '2025-01-07 06:19:21'),
-(13, 'Test Category Name', 1, '2026-02-27 23:22:06', '0000-00-00 00:00:00');
+(14, 'Test Category Name', 1, '2026-02-28 05:48:16', '2026-02-28 05:48:32');
 
 -- --------------------------------------------------------
 
@@ -148,7 +148,7 @@ INSERT INTO `tblcategory` (`id`, `CategoryName`, `Status`, `CreationDate`, `Upda
 CREATE TABLE `tblissuedbookdetails` (
   `id` int(11) NOT NULL,
   `BookId` int(11) DEFAULT NULL,
-  `StudentID` varchar(150) DEFAULT NULL,
+  `NIC` varchar(150) DEFAULT NULL,
   `IssuesDate` timestamp NULL DEFAULT current_timestamp(),
   `ReturnDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   `Reminder` int(11) DEFAULT NULL,
@@ -161,8 +161,10 @@ CREATE TABLE `tblissuedbookdetails` (
 -- Dumping data for table `tblissuedbookdetails`
 --
 
-INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `ReturnDate`, `Reminder`, `RetrunStatus`, `fine`, `remark`) VALUES
-(10, 1, 'SID022', '2026-01-23 23:26:15', '2026-02-27 23:27:24', 3, 1, 100, '23');
+INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `NIC`, `IssuesDate`, `ReturnDate`, `Reminder`, `RetrunStatus`, `fine`, `remark`) VALUES
+(13, 7, '960570960V', '2026-02-01 13:28:06', '2026-02-28 13:30:27', NULL, 1, 60, 'send'),
+(14, 7, '960545960V', '2026-02-28 13:28:39', NULL, NULL, NULL, NULL, 'sd'),
+(15, 8, '960570961V', '2026-02-28 13:29:41', NULL, NULL, NULL, NULL, 'sdsd');
 
 -- --------------------------------------------------------
 
@@ -172,7 +174,8 @@ INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `
 
 CREATE TABLE `tblstudents` (
   `id` int(11) NOT NULL,
-  `StudentId` varchar(100) DEFAULT NULL,
+  `NIC` varchar(100) DEFAULT NULL,
+  `EmpNo` varchar(100) DEFAULT NULL,
   `FullName` varchar(120) DEFAULT NULL,
   `EmailId` varchar(120) DEFAULT NULL,
   `MobileNumber` char(11) DEFAULT NULL,
@@ -187,8 +190,10 @@ CREATE TABLE `tblstudents` (
 -- Dumping data for table `tblstudents`
 --
 
-INSERT INTO `tblstudents` (`id`, `StudentId`, `FullName`, `EmailId`, `MobileNumber`, `Password`, `Status`, `approval`, `RegDate`, `UpdationDate`) VALUES
-(15, 'SID022', 'Himal Sarathchandra', 'himalhp100@gmail.com', '94779209137', '698d51a19d8a121ce581499d7b701668', 1, 1, '2026-02-27 23:17:09', '2026-02-27 23:20:10');
+INSERT INTO `tblstudents` (`id`, `NIC`, `EmpNo`, `FullName`, `EmailId`, `MobileNumber`, `Password`, `Status`, `approval`, `RegDate`, `UpdationDate`) VALUES
+(15, '960570960V', '300513', 'Himal Sarathchandra', 'himalhp@gmail.com', '94779209137', '698d51a19d8a121ce581499d7b701668', 1, 1, '2026-02-27 23:17:09', '2026-02-28 12:23:39'),
+(19, '960570961V', '521300', 'Chamila Chamila', 'hp@gmail.com', '94779209537', '698d51a19d8a121ce581499d7b701668', 1, 1, '2026-02-28 08:15:08', '2026-02-28 09:47:17'),
+(20, '960545960V', '200562', 'test', 'kk@gmail.com', '94779999937', 'bcbe3365e6ac95ea2c0343a2395834dd', 1, 1, '2026-02-28 10:51:40', '2026-02-28 11:49:59');
 
 --
 -- Indexes for dumped tables
@@ -229,7 +234,9 @@ ALTER TABLE `tblissuedbookdetails`
 --
 ALTER TABLE `tblstudents`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `StudentId` (`StudentId`);
+  ADD UNIQUE KEY `NIC` (`NIC`),
+  ADD UNIQUE KEY `EmpNo` (`EmpNo`),
+  ADD UNIQUE KEY `EmailId` (`EmailId`,`MobileNumber`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -245,7 +252,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `tblauthors`
 --
 ALTER TABLE `tblauthors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tblbooks`
@@ -257,19 +264,19 @@ ALTER TABLE `tblbooks`
 -- AUTO_INCREMENT for table `tblcategory`
 --
 ALTER TABLE `tblcategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tblissuedbookdetails`
 --
 ALTER TABLE `tblissuedbookdetails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

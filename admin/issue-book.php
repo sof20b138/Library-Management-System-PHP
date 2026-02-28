@@ -10,15 +10,15 @@ else{
 
 if(isset($_POST['issue']))
 {
-$studentid=strtoupper($_POST['studentid']);
+$NIC=strtoupper($_POST['NIC']);
 $bookid=$_POST['bookid']; 
 $aremark=$_POST['aremark']; 
 $isissued=1;
 $aqty=$_POST['aqty'];
 if($aqty>0){
-$sql="INSERT INTO  tblissuedbookdetails(StudentID,BookId,remark) VALUES(:studentid,:bookid,:aremark)";
+$sql="INSERT INTO  tblissuedbookdetails(NIC,BookId,remark) VALUES(:NIC,:bookid,:aremark)";
 $query = $dbh->prepare($sql);
-$query->bindParam(':studentid',$studentid,PDO::PARAM_STR);
+$query->bindParam(':NIC',$NIC,PDO::PARAM_STR);
 $query->bindParam(':bookid',$bookid,PDO::PARAM_STR);
 $query->bindParam(':aremark',$aremark,PDO::PARAM_STR);
 $query->execute();
@@ -61,7 +61,7 @@ function getstudent() {
 $("#loaderIcon").show();
 jQuery.ajax({
 url: "get_student.php",
-data:'studentid='+$("#studentid").val(),
+data:'NIC='+$("#NIC").val(),
 type: "POST",
 success:function(data){
 $("#get_student_name").html(data);
@@ -119,8 +119,8 @@ Issue a New Book
 <form role="form" method="post">
 
 <div class="form-group">
-<label>Srtudent id<span style="color:red;">*</span></label>
-<input class="form-control" type="text" name="studentid" id="studentid" onBlur="getstudent()" autocomplete="off"  required />
+<label>User NIC<span style="color:red;">*</span></label>
+<input class="form-control" type="text" name="NIC" id="NIC" onBlur="getstudent()" autocomplete="off"  required />
 </div>
 
 <div class="form-group">

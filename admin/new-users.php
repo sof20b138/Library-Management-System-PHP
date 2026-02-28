@@ -9,32 +9,18 @@ header('location:index.php');
 else{ 
 
 // code for block student    
-if(isset($_GET['inid']))
+if(isset($_GET['apid']))
 {
-$id=$_GET['inid'];
-$status=0;
-$sql = "update tblstudents set Status=:status  WHERE id=:id";
+$id=$_GET['apid'];
+$approval=1;
+$sql = "update tblstudents set Approval=:approval  WHERE id=:id";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':id',$id, PDO::PARAM_STR);
-$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query -> bindParam(':approval',$approval, PDO::PARAM_STR);
 $query -> execute();
-header('location:reg-students.php');
+header('location:new-users.php');
 }
 
-
-
-//code for active students
-if(isset($_GET['id']))
-{
-$id=$_GET['id'];
-$status=1;
-$sql = "update tblstudents set Status=:status  WHERE id=:id";
-$query = $dbh->prepare($sql);
-$query -> bindParam(':id',$id, PDO::PARAM_STR);
-$query -> bindParam(':status',$status, PDO::PARAM_STR);
-$query -> execute();
-header('location:reg-students.php');
-}
 
 
     ?>
@@ -66,7 +52,7 @@ header('location:reg-students.php');
          <div class="container">
         <div class="row pad-botm">
             <div class="col-md-12">
-                <h4 class="header-line">Approved Readers</h4>
+                <h4 class="header-line">New User Approvals</h4>
     </div>
 
 
@@ -76,7 +62,7 @@ header('location:reg-students.php');
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                          Reg Students
+                          New Users
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -84,17 +70,18 @@ header('location:reg-students.php');
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Student ID</th>
-                                            <th>Student Name</th>
-                                            <th>Email id </th>
+                                            <th>Employee No.</th>
+                                            <th>NIC</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
                                             <th>Mobile Number</th>
                                             <th>Reg Date</th>
-                                            <th>Status</th>
+                                            <th>Approval</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-<?php $sql = "SELECT * from tblstudents where `Approval` = 1 ORDER BY `Status` ASC;";
+<?php $sql = "SELECT * from tblstudents where `Approval` = 0;";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -105,30 +92,21 @@ foreach($results as $result)
 {               ?>                                      
                                         <tr class="odd gradeX">
                                             <td class="center"><?php echo htmlentities($cnt);?></td>
-                                            <td class="center"><?php echo htmlentities($result->StudentId);?></td>
+                                            <td class="center"><?php echo htmlentities($result->EmpNo);?></td>
+                                            <td class="center"><?php echo htmlentities($result->NIC);?></td>
                                             <td class="center"><?php echo htmlentities($result->FullName);?></td>
                                             <td class="center"><?php echo htmlentities($result->EmailId);?></td>
                                             <td class="center"><?php echo htmlentities($result->MobileNumber);?></td>
-                                             <td class="center"><?php echo htmlentities($result->RegDate);?></td>
-                                            <td class="center"><?php if($result->Status==1)
+                                            <td class="center"><?php echo htmlentities($result->RegDate);?></td>
+                                            <td class="center"><?php if($result->Approval==0)
                                             {
-                                                echo ("<span style='padding: 2px 5px;' class='alert alert-success' role='alert'>Active</span>");
+                                                echo htmlentities("Pending...");
                                             } else {
-                                                echo ("<span style='padding: 2px 5px;' class='alert alert-danger' role='alert'>Blocked</span>");
-                                            }    
+                                                echo htmlentities("Approved");
+                                            }
                                             ?></td>
                                             <td class="center">
-<?php if($result->Status==1)
- {?>
-<a href="reg-students.php?inid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Are you sure you want to block this student?');" >  <button class="btn btn-danger"> Inactive</button>
-<?php } else {?>
-
-<a href="reg-students.php?id=<?php echo htmlentities($result->id);?>" onclick="return confirm('Are you sure you want to active this student?');"><button class="btn btn-primary"> Active</button> 
-                                            <?php } ?>
-
-<a href="student-history.php?stdid=<?php echo htmlentities($result->StudentId);?>"><button class="btn btn-success"> Details</button> 
-
-                                          
+                                                <a href="new-users.php?apid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Are you sure you want to approve this User?');" >  <button class="btn btn-danger"> Approve</button>
                                             </td>
                                         </tr>
  <?php $cnt=$cnt+1;}} ?>                                      

@@ -8,11 +8,11 @@ $_SESSION['login']='';
 if(isset($_POST['login']))
 {
 
-$email=$_POST['emailid'];
+$NIC=$_POST['NIC'];
 $password=md5($_POST['password']);
-$sql ="SELECT EmailId,Password,StudentId,Status FROM tblstudents WHERE EmailId=:email and Password=:password";
+$sql ="SELECT EmailId,Password,NIC,Status FROM tblstudents WHERE NIC=:NIC and Password=:password";
 $query= $dbh -> prepare($sql);
-$query-> bindParam(':email', $email, PDO::PARAM_STR);
+$query-> bindParam(':NIC', $NIC, PDO::PARAM_STR);
 $query-> bindParam(':password', $password, PDO::PARAM_STR);
 $query-> execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -20,10 +20,10 @@ $results=$query->fetchAll(PDO::FETCH_OBJ);
 if($query->rowCount() > 0)
 {
  foreach ($results as $result) {
- $_SESSION['stdid']=$result->StudentId;
+ $_SESSION['NIC']=$result->NIC;
 if($result->Status==1)
 {
-$_SESSION['login']=$_POST['emailid'];
+$_SESSION['login']=$result->EmailId;
 echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
 } else {
 echo "<script>alert('Your Account Has been blocked .Please contact admin');</script>";
@@ -63,40 +63,6 @@ echo "<script>alert('Invalid Details');</script>";
 <!-- MENU SECTION END-->
 <div class="content-wrapper">
 <div class="container">
-<!--Slider---->
-     <div class="row">
-              <div class="col-md-10 col-sm-8 col-xs-12 col-md-offset-1">
-                    <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel" >
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="assets/img/1.jpg" alt="" />
-                        </div>
-                        <div class="item">
-                            <img src="assets/img/2.jpg" alt="" />
-                        </div>
-                        <div class="item">
-                            <img src="assets/img/3.jpg" alt="" /> 
-                        </div>
-                    </div>
-                    <!--INDICATORS-->
-                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example" data-slide-to="1"></li>
-                        <li data-target="#carousel-example" data-slide-to="2"></li>
-                    </ol>
-                    <!--PREVIUS-NEXT BUTTONS-->
-                     <a class="left carousel-control" href="#carousel-example" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a class="right carousel-control" href="#carousel-example" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
-                </div>
-              </div>
-             </div>
-<hr />
-
-
 
 <div class="row pad-botm">
 <div class="col-md-12">
@@ -115,8 +81,8 @@ echo "<script>alert('Invalid Details');</script>";
 <form role="form" method="post">
 
 <div class="form-group">
-<label>Enter Email id</label>
-<input class="form-control" type="text" name="emailid" required autocomplete="off" />
+<label>NIC No.</label>
+<input class="form-control" type="text" name="NIC" required autocomplete="off" />
 </div>
 <div class="form-group">
 <label>Password</label>

@@ -60,15 +60,15 @@ else{
                                             <th>ISBN </th>
                                             <th>Issued Date</th>
                                             <th>Return Date</th>
-                                            <th>Fine in(USD)</th>
+                                            <th>Fine in (Rs.)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 <?php 
-$sid=$_SESSION['stdid'];
-$sql="SELECT tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine from  tblissuedbookdetails join tblstudents on tblstudents.StudentId=tblissuedbookdetails.StudentId join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.StudentId=:sid order by tblissuedbookdetails.id desc";
+$NIC=$_SESSION['NIC'];
+$sql="SELECT tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.NIC=:NIC order by tblissuedbookdetails.id desc";
 $query = $dbh -> prepare($sql);
-$query-> bindParam(':sid', $sid, PDO::PARAM_STR);
+$query-> bindParam(':NIC', $NIC, PDO::PARAM_STR);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
 $cnt=1;
@@ -90,7 +90,7 @@ foreach($results as $result)
                                             echo htmlentities($result->ReturnDate);
                                         }
                                             ?></td>
-                                              <td class="center"><?php echo htmlentities($result->fine);?></td>
+                                              <td class="center"><?php echo ($result->fine) ? "Rs. " . htmlentities($result->fine) : "";?></td>
                                          
                                         </tr>
  <?php $cnt=$cnt+1;}} ?>                                      

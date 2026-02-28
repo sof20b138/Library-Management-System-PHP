@@ -4,20 +4,20 @@ error_reporting(0);
 include('includes/config.php');
 if(isset($_POST['change']))
 {
-$email=$_POST['email'];
+$NIC=$_POST['NIC'];
 $mobile=$_POST['mobile'];
 $newpassword=md5($_POST['newpassword']);
-  $sql ="SELECT EmailId FROM tblstudents WHERE EmailId=:email and MobileNumber=:mobile";
+  $sql ="SELECT NIC FROM tblstudents WHERE NIC=:NIC and MobileNumber=:mobile";
 $query= $dbh -> prepare($sql);
-$query-> bindParam(':email', $email, PDO::PARAM_STR);
+$query-> bindParam(':NIC', $NIC, PDO::PARAM_STR);
 $query-> bindParam(':mobile', $mobile, PDO::PARAM_STR);
 $query-> execute();
 $results = $query -> fetchAll(PDO::FETCH_OBJ);
 if($query -> rowCount() > 0)
 {
-$con="update tblstudents set Password=:newpassword where EmailId=:email and MobileNumber=:mobile";
+$con="update tblstudents set Password=:newpassword where NIC=:NIC and MobileNumber=:mobile";
 $chngpwd1 = $dbh->prepare($con);
-$chngpwd1-> bindParam(':email', $email, PDO::PARAM_STR);
+$chngpwd1-> bindParam(':NIC', $NIC, PDO::PARAM_STR);
 $chngpwd1-> bindParam(':mobile', $mobile, PDO::PARAM_STR);
 $chngpwd1-> bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
 $chngpwd1->execute();
@@ -81,8 +81,8 @@ return true;
 <form role="form" name="chngpwd" method="post" onSubmit="return valid();">
 
 <div class="form-group">
-<label>Enter Reg Email id</label>
-<input class="form-control" type="email" name="email" required autocomplete="off" />
+<label>Enter Reg NIC</label>
+<input class="form-control" type="NIC" name="NIC" required autocomplete="off" />
 </div>
 
 <div class="form-group">
