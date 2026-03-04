@@ -194,14 +194,14 @@ foreach($results as $result)
 
 
 
-<h4>Book Details</h4>
+<!-- <h4>Book Details</h4>
 <hr />
 
 <div class="col-md-6"> 
 <div class="form-group">
 <label>Book Image :</label>
-<img src="bookimg/<?php echo htmlentities($result->bookImage); ?>" width="120">
-</div></div>
+<img src="bookimg/<?php //echo htmlentities($result->bookImage); ?>" width="120">
+</div></div> -->
 
 
 <div class="col-md-6"> 
@@ -238,7 +238,7 @@ foreach($results as $result)
 </div>
 </div>
 
-<div class="col-md-12"> 
+<div class="col-md-6"> 
 <div class="form-group">
 
 <?php 
@@ -263,9 +263,9 @@ if($result->fine=="" || $result->fine==null)
 </div>
 </div>
  <?php if($result->RetrunStatus==0){?>
-
+<div class="col-md-6"> 
 <button type="submit" name="return" id="submit" class="btn btn-info">Return Book </button>
-
+</div>
  </div>
 
 <?php }}} ?>

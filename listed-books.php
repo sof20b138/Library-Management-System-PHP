@@ -76,7 +76,10 @@ foreach($results as $result)
   <table class="table table-bordered">
 
      <tr>
-        <td rowspan="2"><img src="admin/bookimg/<?php echo htmlentities($result->bookImage);?>" width="120"></td>
+        <td rowspan="2">
+        <p style="font-size: 100px;"><i class="fa fa-book" aria-hidden="true"></i></p>
+        <!-- <img src="admin/bookimg/<?php echo htmlentities($result->bookImage);?>" width="120"> -->
+        </td>
         <th>Book Name</th>
         <td><?php echo htmlentities($result->BookName);?></td>
     </tr>

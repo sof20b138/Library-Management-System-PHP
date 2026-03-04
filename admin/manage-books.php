@@ -77,7 +77,9 @@ header('location:manage-books.php');
                                         </tr>
                                     </thead>
                                     <tbody>
-<?php $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId order by RegDate DESC";
+<?php 
+// ,tblbooks.bookImage
+$sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId order by RegDate DESC";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -89,7 +91,7 @@ foreach($results as $result)
                                         <tr class="odd gradeX">
                                             <td class="center"><?php echo htmlentities($cnt);?></td>
                                             <td class="center" width="300">
-<img src="bookimg/<?php echo htmlentities($result->bookImage);?>" width="100">
+<!-- <img src="bookimg/<?php echo htmlentities($result->bookImage);?>" width="100"> -->
                                                 <br /><b><?php echo htmlentities($result->BookName);?></b></td>
                                             <td class="center"><?php echo htmlentities($result->CategoryName);?></td>
                                             <td class="center"><?php echo htmlentities($result->AuthorName);?></td>

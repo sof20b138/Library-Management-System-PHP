@@ -15,8 +15,12 @@ $category=$_POST['category'];
 $author=$_POST['author'];
 $isbn=$_POST['isbn'];
 $price=$_POST['price'];
-$bookimg=$_FILES["bookpic"]["name"];
 $bqty=$_POST['bqty'];
+
+$bookimg=$_FILES["bookpic"]["name"];
+
+
+/*
 // get the image extension
 $extension = substr($bookimg,strlen($bookimg)-4,strlen($bookimg));
 // allowed extensions
@@ -33,14 +37,21 @@ echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');
 else
 {
 move_uploaded_file($_FILES["bookpic"]["tmp_name"],"bookimg/".$imgnewname);
-$sql="INSERT INTO  tblbooks(BookName,CatId,AuthorId,ISBNNumber,BookPrice,bookImage,bookQty) VALUES(:bookname,:category,:author,:isbn,:price,:imgnewname,:bqty)";
+
+*/
+
+
+//bookImage, ,:imgnewname
+$sql="INSERT INTO  tblbooks(BookName,CatId,AuthorId,ISBNNumber,BookPrice,bookQty) VALUES(:bookname,:category,:author,:isbn,:price,:bqty)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':bookname',$bookname,PDO::PARAM_STR);
 $query->bindParam(':category',$category,PDO::PARAM_STR);
 $query->bindParam(':author',$author,PDO::PARAM_STR);
 $query->bindParam(':isbn',$isbn,PDO::PARAM_STR);
 $query->bindParam(':price',$price,PDO::PARAM_STR);
-$query->bindParam(':imgnewname',$imgnewname,PDO::PARAM_STR);
+
+//$query->bindParam(':imgnewname',$imgnewname,PDO::PARAM_STR);
+
 $query->bindParam(':bqty',$bqty,PDO::PARAM_STR);
 $query->execute();
 $lastInsertId = $dbh->lastInsertId();
@@ -53,7 +64,9 @@ else
 {
 echo "<script>alert('Something went wrong. Please try again');</script>";    
 echo "<script>window.location.href='manage-books.php'</script>";
-}}
+}
+
+//}
 }
 ?>
 <!DOCTYPE html>
@@ -176,12 +189,15 @@ foreach($results as $result)
  </div>
 </div>
 
+<!--
 <div class="col-md-6">  
  <div class="form-group">
  <label>Book Picture<span style="color:red;">*</span></label>
  <input class="form-control" type="file" name="bookpic" autocomplete="off"   required="required" />
  </div>
     </div>
+-->
+
 
 <div class="col-md-6">  
  <div class="form-group">

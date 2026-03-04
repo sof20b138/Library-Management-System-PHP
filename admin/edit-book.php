@@ -17,7 +17,7 @@ $isbn=$_POST['isbn'];
 $price=$_POST['price'];
 $bookid=intval($_GET['bookid']);
 $bqty=$_POST['bqty'];
-$sql="update  tblbooks set BookName=:bookname,CatId=:category,AuthorId=:author,BookPrice=:price,bookQty=:bqty where id=:bookid";
+$sql="update tblbooks set BookName=:bookname,CatId=:category,AuthorId=:author,BookPrice=:price,bookQty=:bqty where id=:bookid";
 $query = $dbh->prepare($sql);
 $query->bindParam(':bookname',$bookname,PDO::PARAM_STR);
 $query->bindParam(':category',$category,PDO::PARAM_STR);
@@ -84,12 +84,12 @@ if($query->rowCount() > 0)
 foreach($results as $result)
 {               ?>  
 
-<div class="col-md-6">
+<!-- <div class="col-md-6">
 <div class="form-group">
 <label>Book Image</label>
 <img src="bookimg/<?php echo htmlentities($result->bookImage);?>" width="100">
 <a href="change-bookimg.php?bookid=<?php echo htmlentities($result->bookid);?>">Change Book Image</a>
-</div></div>
+</div></div> -->
 
 <div class="col-md-6">
 <div class="form-group">
