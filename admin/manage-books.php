@@ -72,14 +72,15 @@ header('location:manage-books.php');
                                             <th>Category</th>
                                             <th>Author</th>
                                             <th>ISBN</th>
+                                            <th>Book No.</th>
                                             <th>Price</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 <?php 
-// ,tblbooks.bookImage
-$sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId order by RegDate DESC";
+
+$sql = "SELECT tblbooks.bookImage, tblbooks.BookNu, tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId order by RegDate DESC";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -91,11 +92,12 @@ foreach($results as $result)
                                         <tr class="odd gradeX">
                                             <td class="center"><?php echo htmlentities($cnt);?></td>
                                             <td class="center" width="300">
-<!-- <img src="bookimg/<?php echo htmlentities($result->bookImage);?>" width="100"> -->
+<img src="bookimg/<?php echo htmlentities($result->bookImage);?>" width="100">
                                                 <br /><b><?php echo htmlentities($result->BookName);?></b></td>
                                             <td class="center"><?php echo htmlentities($result->CategoryName);?></td>
                                             <td class="center"><?php echo htmlentities($result->AuthorName);?></td>
                                             <td class="center"><?php echo htmlentities($result->ISBNNumber);?></td>
+                                            <td class="center"><?php echo htmlentities($result->BookNu);?></td>
                                             <td class="center"><?php echo htmlentities($result->BookPrice);?></td>
                                             <td class="center">
 

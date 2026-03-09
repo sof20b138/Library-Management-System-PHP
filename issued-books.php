@@ -58,6 +58,7 @@ else{
                                             <th>#</th>
                                             <th>Book Name</th>
                                             <th>ISBN </th>
+                                            <th>Book No.</th>
                                             <th>Issued Date</th>
                                             <th>Return Date</th>
                                             <th>Fine in (Rs.)</th>
@@ -66,7 +67,7 @@ else{
                                     <tbody>
 <?php 
 $NIC=$_SESSION['NIC'];
-$sql="SELECT tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.NIC=:NIC order by tblissuedbookdetails.id desc";
+$sql="SELECT tblbooks.BookNu,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.NIC=:NIC order by tblissuedbookdetails.id desc";
 $query = $dbh -> prepare($sql);
 $query-> bindParam(':NIC', $NIC, PDO::PARAM_STR);
 $query->execute();
@@ -79,6 +80,7 @@ foreach($results as $result)
                                         <tr class="odd gradeX">
                                             <td class="center"><?php echo htmlentities($cnt);?></td>
                                             <td class="center"><?php echo htmlentities($result->BookName);?></td>
+                                            <td class="center"><?php echo htmlentities($result->BookNu);?></td>
                                             <td class="center"><?php echo htmlentities($result->ISBNNumber);?></td>
                                             <td class="center"><?php echo htmlentities($result->IssuesDate);?></td>
                                             <td class="center"><?php if($result->ReturnDate=="")

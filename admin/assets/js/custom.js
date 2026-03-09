@@ -65,18 +65,21 @@
                         studentName: $row.find('td:eq(3)').text().trim(),
                         mobileNumber: $row.find('td:eq(4)').text().trim(),
                         bookNameISBN: $row.find('td:eq(5)').text().trim(),
-                        issuedDate: $row.find('td:eq(6)').text().trim(),
-                        status: $row.find('td:eq(7)').text().trim(),
-                        reminder: $row.find('td:eq(8)').text().trim(),
-                        details: $row.find('td:eq(9)').text().trim()
+                        bookNo: $row.find('td:eq(6)').text().trim(),
+                        issuedDate: $row.find('td:eq(7)').text().trim(),
+                        status: $row.find('td:eq(8)').text().trim(),
+                        reminder: $row.find('td:eq(9)').text().trim(),
+                        details: $row.find('td:eq(10)').text().trim()
                     };
 
                     tableData.push(rowObject);
+
                 }
             });
 
             // Check if any data was selected
             if (tableData.length > 0) {
+
 
                 $('.send-sms-progress-bar-container').removeClass("hidden");
                 $('.send-sms-progress-bar-container').addClass("show");
@@ -151,7 +154,7 @@
  
                     setTimeout(function () {
                         $('.send-sms-progress-bar-container').addClass("hidden");
-                        location.reload();
+                        //location.reload();
                     }, 2500);
              
                 }

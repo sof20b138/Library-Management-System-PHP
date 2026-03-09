@@ -53,7 +53,7 @@ else{
                         <div class="panel-body">
                        
 
-<?php $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued,tblbooks.bookQty,  
+<?php $sql = "SELECT tblbooks.bookImage,tblbooks.BookNu,tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued,tblbooks.bookQty,  
                COUNT(tblissuedbookdetails.id) AS issuedBooks,
    COUNT(tblissuedbookdetails.RetrunStatus) AS returnedbook
 
@@ -77,8 +77,7 @@ foreach($results as $result)
 
      <tr>
         <td rowspan="2">
-        <p style="font-size: 100px;"><i class="fa fa-book" aria-hidden="true"></i></p>
-        <!-- <img src="admin/bookimg/<?php echo htmlentities($result->bookImage);?>" width="120"> -->
+        <img src="admin/bookimg/<?php echo htmlentities($result->bookImage);?>" width="120">
         </td>
         <th>Book Name</th>
         <td><?php echo htmlentities($result->BookName);?></td>
@@ -87,7 +86,11 @@ foreach($results as $result)
         <th>Author</th>
         <td><?php echo htmlentities($result->AuthorName);?></td>
     </tr>
-      <tr>
+    <tr>
+        <th>Book No.</th>
+        <td colspan="2"><?php echo htmlentities($result->BookNu);?></td>
+    </tr>
+    <tr>
         <th>ISBN Number</th>
         <td colspan="2"><?php echo htmlentities($result->ISBNNumber);?></td>
     </tr>

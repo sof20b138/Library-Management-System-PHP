@@ -124,7 +124,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 Issued Books
                             </div>
                             <div class="panel-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="overflow-x: scroll;">
                                     <table class="table-issued-books table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
@@ -133,7 +133,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>NIC</th>
                                                 <th>Name</th>
                                                 <th>Mobile Number</th>
-                                                <th>ISBN and Book Name</th>
+                                                <th style="min-width: 90px;">ISBN and Book Name</th>
+                                                <th style="min-width: 90px;">Book No.</th>
                                                 <th style="min-width: 90px;">Issued Date</th>
                                                 <th style="min-width: 105px;">Status</th>
                                                 <th style="min-width: 100px;">Reminder</th>
@@ -142,7 +143,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $sql = "SELECT tblissuedbookdetails.Reminder, tblissuedbookdetails.fine, tblstudents.MobileNumber,tblstudents.NIC,tblstudents.EmpNo,tblstudents.FullName,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
+                                            <?php $sql = "SELECT tblissuedbookdetails.Reminder, tblissuedbookdetails.fine, tblstudents.MobileNumber,tblstudents.NIC,tblstudents.EmpNo,tblstudents.FullName,tblbooks.BookNu, tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId order by tblissuedbookdetails.ReturnDate ASC";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -176,6 +177,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         echo "<strong>ISBN : </strong>". $result->ISBNNumber."<br/><br/>";
                                                         echo "<strong>Book Name : </strong>". $result->BookName;
                                                         ?></td>
+                                                        <td class="center"><?php echo htmlentities($result->BookNu); ?></td>
                                                         <td class="center"><?php echo htmlentities($result->IssuesDate); ?></td>
                                                         <td class="center"><?php if ($result->ReturnDate == "" || $result->ReturnDate == null) {
                                                                                 $dailyfine = 5;

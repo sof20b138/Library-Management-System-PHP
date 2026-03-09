@@ -15,12 +15,9 @@ $category=$_POST['category'];
 $author=$_POST['author'];
 $isbn=$_POST['isbn'];
 $price=$_POST['price'];
-$bqty=$_POST['bqty'];
-
+$booknu=$_POST['booknu'];
 $bookimg=$_FILES["bookpic"]["name"];
-
-
-/*
+$bqty=$_POST['bqty'];
 // get the image extension
 $extension = substr($bookimg,strlen($bookimg)-4,strlen($bookimg));
 // allowed extensions
@@ -37,21 +34,15 @@ echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');
 else
 {
 move_uploaded_file($_FILES["bookpic"]["tmp_name"],"bookimg/".$imgnewname);
-
-*/
-
-
-//bookImage, ,:imgnewname
-$sql="INSERT INTO  tblbooks(BookName,CatId,AuthorId,ISBNNumber,BookPrice,bookQty) VALUES(:bookname,:category,:author,:isbn,:price,:bqty)";
+$sql="INSERT INTO  tblbooks(BookNu, BookName,CatId,AuthorId,ISBNNumber,BookPrice,bookImage,bookQty) VALUES(:booknu, :bookname,:category,:author,:isbn,:price,:imgnewname,:bqty)";
 $query = $dbh->prepare($sql);
+$query->bindParam(':booknu',$booknu,PDO::PARAM_STR);
 $query->bindParam(':bookname',$bookname,PDO::PARAM_STR);
 $query->bindParam(':category',$category,PDO::PARAM_STR);
 $query->bindParam(':author',$author,PDO::PARAM_STR);
 $query->bindParam(':isbn',$isbn,PDO::PARAM_STR);
 $query->bindParam(':price',$price,PDO::PARAM_STR);
-
-//$query->bindParam(':imgnewname',$imgnewname,PDO::PARAM_STR);
-
+$query->bindParam(':imgnewname',$imgnewname,PDO::PARAM_STR);
 $query->bindParam(':bqty',$bqty,PDO::PARAM_STR);
 $query->execute();
 $lastInsertId = $dbh->lastInsertId();
@@ -64,9 +55,7 @@ else
 {
 echo "<script>alert('Something went wrong. Please try again');</script>";    
 echo "<script>window.location.href='manage-books.php'</script>";
-}
-
-//}
+}}
 }
 ?>
 <!DOCTYPE html>
@@ -86,14 +75,14 @@ echo "<script>window.location.href='manage-books.php'</script>";
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 <script type="text/javascript">
-    function checkisbnAvailability() {
+    function checkbooknuAvailability() {
 $("#loaderIcon").show();
 jQuery.ajax({
-url: "check_availability.php",
-data:'isbn='+$("#isbn").val(),
+url: "check_booknuavailability.php",
+data:'booknu='+$("#booknu").val(),
 type: "POST",
 success:function(data){
-$("#isbn-availability-status").html(data);
+$("#booknu-availability-status").html(data);
 $("#loaderIcon").hide();
 },
 error:function (){}
@@ -176,10 +165,16 @@ foreach($results as $result)
 
 <div class="col-md-6">  
 <div class="form-group">
+<label>Book No.<span style="color:red;">*</span></label>
+<input class="form-control" type="text" name="booknu" id="booknu" required="required" autocomplete="off" onBlur="checkbooknuAvailability()"  />
+<p class="help-block">Book No. Must be unique</p>
+         <span id="booknu-availability-status" style="font-size:12px;"></span>
+</div></div>
+
+<div class="col-md-6">  
+<div class="form-group">
 <label>ISBN Number<span style="color:red;">*</span></label>
-<input class="form-control" type="text" name="isbn" id="isbn" required="required" autocomplete="off" onBlur="checkisbnAvailability()"  />
-<p class="help-block">An ISBN is an International Standard Book Number.ISBN Must be unique</p>
-         <span id="isbn-availability-status" style="font-size:12px;"></span>
+<input class="form-control" type="text" name="isbn" id="isbn" required="required" autocomplete="off" />
 </div></div>
 
 <div class="col-md-6">  
@@ -189,20 +184,17 @@ foreach($results as $result)
  </div>
 </div>
 
-<!--
 <div class="col-md-6">  
  <div class="form-group">
  <label>Book Picture<span style="color:red;">*</span></label>
  <input class="form-control" type="file" name="bookpic" autocomplete="off"   required="required" />
  </div>
     </div>
--->
-
 
 <div class="col-md-6">  
  <div class="form-group">
  <label>Book Quantity<span style="color:red;">*</span></label>
- <input class="form-control" type="text" name="bqty" autocomplete="off"   required="required" />
+ <input class="form-control" type="text" name="bqty" autocomplete="off"   required="required" value="1" disabled/>
  </div>
 </div>
 <div class="col-md-12"> 
