@@ -29,34 +29,18 @@ if ($issueid) {
             'from' => 'HomeAffairs'
         ];
 
-        // ... after your $sql execute() is successful ...
-
         $final_url = $api_url . "?" . http_build_query($params);
+        
+        // Use error suppression and check result
+        $api_res = @file_get_contents($final_url);
 
-        // 1. Initialize cURL
-        $ch = curl_init();
-
-        // 2. Set options
-        curl_setopt($ch, CURLOPT_URL, $final_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Don't wait forever
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Use only for debugging if SSL fails
-
-        // 3. Execute the request
-        $api_res = curl_exec($ch);
-
-        // 4. Check for cURL errors
-        if (curl_errno($ch)) {
-            $error_msg = curl_error($ch);
-            $output['message'] = 'Database updated, but SMS API connection failed. SMS API Error: ' . $error_msg;
-        } else {
+        if ($api_res !== false) {
             $output['success'] = true;
             $output['message'] = 'SMS Processed';
-            $output['api_raw'] = $api_res;
+            $output['api_raw'] = $api_res; // Keep this to see what Dialog actually says
+        } else {
+            $output['message'] = 'Database updated, but SMS API connection failed.';
         }
-
-        curl_close($ch);
-
     } else {
         $output['message'] = 'Database update failed.';
     }

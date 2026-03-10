@@ -115,6 +115,7 @@
                         await $.ajax({
                             url: 'api/send_sms.php',
                             type: 'POST',
+                            dataType: 'json',
                             data: {
                                 destination: value.mobileNumber,
                                 message: message,
@@ -124,6 +125,8 @@
                             timeout: 9000,
                             headers: { 'X-Requested-With': 'XMLHttpRequest' },
                             success: function (response) {
+
+                                console.log("Full Response Object:", response);
                                 console.log('Success for ' + value.studentName);
   
                                 // Update Progress Bar
@@ -154,7 +157,7 @@
  
                     setTimeout(function () {
                         $('.send-sms-progress-bar-container').addClass("hidden");
-                        //location.reload();
+                        location.reload();
                     }, 2500);
              
                 }
