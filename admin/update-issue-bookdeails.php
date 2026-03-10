@@ -139,7 +139,7 @@ Issued Book Details
 <form role="form" method="post">
 <?php 
 $rid=intval($_GET['rid']);
-$sql = "SELECT tblstudents.RegDate, tblstudents.EmpNo, tblstudents.NIC ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblissuedbookdetails.id=:rid";
+$sql = "SELECT tblstudents.RegDate, tblstudents.EmpNo, tblstudents.NIC ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage, tblbooks.BookNu,tblbooks.ISBNNumber from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblissuedbookdetails.id=:rid";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':rid',$rid,PDO::PARAM_STR);
 $query->execute();
@@ -194,14 +194,14 @@ foreach($results as $result)
 
 
 
-<!-- <h4>Book Details</h4>
+<h4>Book Details</h4>
 <hr />
 
 <div class="col-md-6"> 
 <div class="form-group">
 <label>Book Image :</label>
-<img src="bookimg/<?php //echo htmlentities($result->bookImage); ?>" width="120">
-</div></div> -->
+<img src="bookimg/<?php echo htmlentities($result->bookImage); ?>" width="120">
+</div></div>
 
 
 <div class="col-md-6"> 
@@ -210,6 +210,26 @@ foreach($results as $result)
 <?php echo htmlentities($result->BookName);?>
 </div>
 </div>
+
+
+
+
+<div class="col-md-6"> 
+<div class="form-group">
+<label>ISBN Number :</label>
+<?php echo htmlentities($result->ISBNNumber);?>
+</div>
+</div>
+
+
+<div class="col-md-6"> 
+<div class="form-group">
+<label>Book No. :</label>
+<?php echo htmlentities($result->BookNu);?>
+</div>
+</div>
+
+
 <div class="col-md-6"> 
 <div class="form-group">
 <label>ISBN :</label>

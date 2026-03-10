@@ -17,7 +17,7 @@ $isbn=$_POST['isbn'];
 $price=$_POST['price'];
 $booknu=$_POST['booknu'];
 $bookimg=$_FILES["bookpic"]["name"];
-$bqty=$_POST['bqty'];
+$bqty=($_POST['bqty']) ? $_POST['bqty'] : 1;
 // get the image extension
 $extension = substr($bookimg,strlen($bookimg)-4,strlen($bookimg));
 // allowed extensions
@@ -194,7 +194,7 @@ foreach($results as $result)
 <div class="col-md-6">  
  <div class="form-group">
  <label>Book Quantity<span style="color:red;">*</span></label>
- <input class="form-control" type="text" name="bqty" autocomplete="off"   required="required" value="1" disabled/>
+ <input class="form-control" type="text" name="bqty" autocomplete="off"   required="required" value="1" readonly/>
  </div>
 </div>
 <div class="col-md-12"> 

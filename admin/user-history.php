@@ -90,6 +90,8 @@ header('location:reg-users.php');
                                             <th>Employee No.</th>
                                             <th>Name</th>
                                             <th>Issued Book  </th>
+                                            <th>ISBN Number  </th>
+                                            <th>Book No.  </th>
                                             <th>Issued Date</th>
                                             <th>Returned Date</th>
                                             <th>Fine (if any)</th>
@@ -99,7 +101,7 @@ header('location:reg-users.php');
                                     <tbody>
 <?php 
 
-$sql = "SELECT tblstudents.EmpNo, tblstudents.NIC ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.NIC='$NIC' ";
+$sql = "SELECT tblstudents.EmpNo, tblstudents.NIC ,tblstudents.FullName,tblstudents.EmailId,tblstudents.MobileNumber,tblbooks.BookName,tblbooks.BookNu,tblbooks.ISBNNumber,tblissuedbookdetails.IssuesDate,tblissuedbookdetails.ReturnDate,tblissuedbookdetails.id as rid,tblissuedbookdetails.fine,tblissuedbookdetails.RetrunStatus,tblbooks.id as bid,tblbooks.bookImage from  tblissuedbookdetails join tblstudents on tblstudents.NIC=tblissuedbookdetails.NIC join tblbooks on tblbooks.id=tblissuedbookdetails.BookId where tblstudents.NIC='$NIC' ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -114,6 +116,8 @@ foreach($results as $result)
                                             <td class="center"><?php echo htmlentities($result->EmpNo);?></td>
                                             <td class="center"><?php echo htmlentities($result->FullName);?></td>
                                             <td class="center"><?php echo htmlentities($result->BookName);?></td>
+                                            <td class="center"><?php echo htmlentities($result->ISBNNumber);?></td>
+                                            <td class="center"><?php echo htmlentities($result->BookNu);?></td>
                                             <td class="center"><?php echo htmlentities($result->IssuesDate);?></td>
                                             <td class="center"><?php if($result->ReturnDate==''): echo "Not returned yet";
                                             else: echo htmlentities($result->ReturnDate); endif;?></td>

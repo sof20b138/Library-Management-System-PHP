@@ -12,16 +12,29 @@ if(!empty($_POST["bookid"])) {
 // $issuedbook=$query -> rowCount(); 
 
 
- 
-    $sql ="SELECT tblbooks.BookName as BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued,tblbooks.bookQty,  
-               COUNT(tblissuedbookdetails.id) AS issuedBooks,
-   COUNT(tblissuedbookdetails.RetrunStatus) AS returnedbook
-
-        FROM tblbooks
-        LEFT JOIN tblissuedbookdetails ON tblissuedbookdetails.BookId = tblbooks.id
-        LEFT JOIN tblauthors ON tblauthors.id = tblbooks.AuthorId
-        Left join tblcategory on tblcategory.id=tblbooks.CatId
-     WHERE (tblbooks.ISBNNumber=:bookid || tblbooks.BookName like '%$bookid%') group by BookName";
+    $sql ="SELECT 
+    tblbooks.BookName,
+    tblcategory.CategoryName,
+    tblauthors.AuthorName,
+    tblbooks.BookNu, 
+    tblbooks.ISBNNumber,
+    tblbooks.BookPrice,
+    tblbooks.id AS bookid,
+    tblbooks.bookImage,
+    tblbooks.isIssued,
+    tblbooks.bookQty,  
+    COUNT(tblissuedbookdetails.id) AS issuedBooks,
+    COUNT(tblissuedbookdetails.RetrunStatus) AS returnedbook
+FROM tblbooks
+LEFT JOIN tblissuedbookdetails ON tblissuedbookdetails.BookId = tblbooks.id
+LEFT JOIN tblauthors ON tblauthors.id = tblbooks.AuthorId
+LEFT JOIN tblcategory ON tblcategory.id = tblbooks.CatId
+WHERE (tblbooks.BookNu =:bookid  OR tblbooks.BookName LIKE '%$bookid%') 
+GROUP BY 
+    tblbooks.id, 
+    tblcategory.CategoryName, 
+    tblauthors.AuthorName
+LIMIT 0, 25;";
 $query= $dbh -> prepare($sql);
 $query-> bindParam(':bookid', $bookid, PDO::PARAM_STR);
 $query-> execute();
@@ -35,7 +48,7 @@ if($query -> rowCount() > 0){
 <?php foreach ($results as $result) {?>
     <th style="padding-left:5%; width: 10%;">
 <img src="bookimg/<?php echo htmlentities($result->bookImage); ?>" width="120"><br />
-      <?php echo htmlentities($result->BookName); ?><br />
+      <?php echo htmlentities($result->BookName) . " (ISBN : " . htmlentities($result->ISBNNumber).")"; ?><br />
     <?php echo htmlentities($result->AuthorName); ?><br />
   Book Qunatity:  <?php echo htmlentities($bqty=$result->bookQty); ?><br />
   Available Book Qunatity:  <?php  echo htmlentities($aqty=$result->bookQty-($result->issuedBooks-$result->returnedbook));

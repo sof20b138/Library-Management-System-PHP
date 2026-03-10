@@ -58,7 +58,7 @@ echo "<script>window.location.href='manage-books.php'</script>";
          <div class="container">
         <div class="row pad-botm">
             <div class="col-md-12">
-                <h4 class="header-line">Add Book</h4>
+                <h4 class="header-line">Edit Book</h4>
                 
                             </div>
 
@@ -73,7 +73,7 @@ Book Info
 <form role="form" method="post">
 <?php 
 $bookid=intval($_GET['bookid']);
-$sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblcategory.id as cid,tblauthors.AuthorName,tblauthors.id as athrid,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,bookQty from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId where tblbooks.id=:bookid";
+$sql = "SELECT tblbooks.BookNu,tblbooks.BookName,tblcategory.CategoryName,tblcategory.id as cid,tblauthors.AuthorName,tblauthors.id as athrid,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,bookQty from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId where tblbooks.id=:bookid";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':bookid',$bookid,PDO::PARAM_STR);
 $query->execute();
@@ -84,12 +84,12 @@ if($query->rowCount() > 0)
 foreach($results as $result)
 {               ?>  
 
-<!-- <div class="col-md-6">
+<div class="col-md-6">
 <div class="form-group">
 <label>Book Image</label>
 <img src="bookimg/<?php echo htmlentities($result->bookImage);?>" width="100">
 <a href="change-bookimg.php?bookid=<?php echo htmlentities($result->bookid);?>">Change Book Image</a>
-</div></div> -->
+</div></div>
 
 <div class="col-md-6">
 <div class="form-group">
@@ -159,20 +159,25 @@ continue;
 <p class="help-block">An ISBN is an International Standard Book Number.ISBN Must be unique</p>
 </div></div>
 
-
 <div class="col-md-6">
+<div class="form-group">
+<label>Book No.<span style="color:red;">*</span></label>
+<input class="form-control" type="text" name="booknu" value="<?php echo htmlentities($result->BookNu);?>"  readonly />
+<p class="help-block">Book Number Must be unique</p>
+</div></div>
+
+
+<div class="col-md-6"  style="float:left">
  <div class="form-group">
- <label>Price in USD<span style="color:red;">*</span></label>
+ <label>Price in Rs. <span style="color:red;">*</span></label>
  <input class="form-control" type="text" name="price" value="<?php echo htmlentities($result->BookPrice);?>"   required="required" />
  </div></div>
 <div class="col-md-6">  
  <div class="form-group">
  <label>Book Quantity<span style="color:red;">*</span></label>
- <input class="form-control" type="text" name="bqty" autocomplete="off" value="<?php echo htmlentities($result->bookQty);?>"   required="required" />
+ <input class="form-control" type="text" name="bqty" autocomplete="off" value="<?php echo htmlentities($result->bookQty);?>"   readonly required="required" />
  </div>
 </div>
-
-
 
  <?php }} ?><div class="col-md-12">
 <button type="submit" name="update" class="btn btn-info">Update </button></div>
