@@ -81,7 +81,7 @@ return true;
 }
 </script>
 
-<body>
+<body style="background-image:url('assets/img/form-background.jpeg');" class="form-body">
     <!------MENU SECTION START-->
 <?php include('includes/header.php');?>
 <!-- MENU SECTION END-->
@@ -96,7 +96,7 @@ return true;
         else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>            
 <!--LOGIN PANEL START-->           
 <div class="row">
-<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" >
+<div class="col-md-6 col-md-offset-3" >
 <div class="panel panel-info">
 <div class="panel-heading">
 Change Password

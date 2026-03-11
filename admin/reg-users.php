@@ -76,7 +76,7 @@ header('location:reg-users.php');
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                          Reg Students
+                          Reg Users
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">

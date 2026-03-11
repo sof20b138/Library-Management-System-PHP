@@ -6,9 +6,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand">
-
-                    <img src="assets/img/logo.png" width="200"/>
+                <a>
+                    <img class="navbar-brand" src="assets/img/logo-mini.svg" style="height: auto !important;width:300px;max-width:100%;"/>
                 </a>
 
             </div>

@@ -38,12 +38,13 @@ $_SESSION['login']='';
           <div class="inner cover">
 
             <p class="landing-logo">
-              <img src="assets/img/placeholder-lms350x150.png" alt="logo">
+              <img src="assets/img/logo-main.svg" alt="logo">
             </p>
 
             <p class="lead">
-              <a href="login.php" class="btn btn-lg btn-primary">Login</a>
-			        <a href="signup.php" class="btn btn-lg btn-success">Register</a>
+              <a href="userlogin.php" class="btn btn-lg btn-primary">User Login</a>
+			        <a href="usersignup.php" class="btn btn-lg btn-success">Register Now</a>
+              <a href="adminlogin.php" class="btn btn-lg btn-warning">Admin Login</a>
             </p>
           </div>
 
